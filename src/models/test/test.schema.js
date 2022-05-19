@@ -1,7 +1,7 @@
 //+ TestSchema modelinin tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
 
-//+testSchemayı tasarlıyoruz
+//+ TestSchemayı tasarlıyoruz
 const testSchema = mongoose.Schema({
   //+ Testin başlığını tutan propertydir.
   title: {
@@ -37,7 +37,7 @@ const testSchema = mongoose.Schema({
     type: Number,
     required: true,
   },
-  //+ Testing kategorisinin tutulduğu propertydir. [YKS,KPSS,LYS,SBS,OBS,HGS :)]
+  //+ Testin kategorisinin tutulduğu propertydir. [YKS,KPSS,LYS,SBS,OBS,HGS :)]
   category: {
     type: String,
     required: true,

@@ -13,9 +13,9 @@ app.use('/api', api);
 
 //+ proje çalıştığınde index.html dönerek ayrı bir web sayfası görüntülenmesi tavsiye edilir. Genelde landing page için kullanılan path dir.
 
-//+ Params : []
-//+ Body : []
-//+ Auth : [public]
+//! Params : []
+//! Body : []
+//! Auth : [public]
 app.use('/', (request, response) => {
   return response.json({
     message: 'Server Çalışıyor!',

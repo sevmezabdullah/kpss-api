@@ -2,8 +2,7 @@
 const mongoose = require('mongoose');
 //+ Veritabanı adres bilgisini almak için config dosyasını import ediyoruz
 const config = require('../config/config');
-//+ Veritabanına bağlı olup olmadığımızı kontrol edebileceğimiz dbConnected değişkeni
-let dbConnected;
+
 //+ Date objesi ile veritabanına bağlandığımız saat:dakika:saniye bilgisini alıyoruz.
 const date = new Date();
 
@@ -14,7 +13,6 @@ async function connectDB() {
       `Veritabanına bağlandı. : ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}s`
         .bgMagenta
     );
-    dbConnected = true;
   });
 }
 
@@ -28,5 +26,4 @@ async function disconnectDB() {
 module.exports = {
   connectDB,
   disconnectDB,
-  dbConnected,
 };

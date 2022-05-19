@@ -1,1 +1,1 @@
-//! UserSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
+//+ UserSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
