@@ -1,49 +1,49 @@
-//! UserSchema modelinin tasarlandığı model katmanıdır.
+//+ UserSchema modelinin tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
 
-//! userSchemayı tasarlıyoruz.
+//+ userSchemayı tasarlıyoruz.
 const userSchema = mongoose.Schema({
-  //! Kullanıcının adını tuttuğum property
+  //+ Kullanıcının adını tuttuğum property
   name: {
     type: String,
     required: true,
   },
-  //! Kullanıcının soyadını tuttuğum property
+  //+ Kullanıcının soyadını tuttuğum property
   surname: {
     type: String,
     required: true,
   },
-  //! Kullanıcının email adresini tuttuğum property
+  //+ Kullanıcının email adresini tuttuğum property
   email: {
     type: String,
     required: true,
   },
 
-  //! Kullanıcının şifresini tuttuğum property. Sorgularda gizlemek için select:false kullanıldı.
+  //+ Kullanıcının şifresini tuttuğum property. Sorgularda gizlemek için select:false kullanıldı.
   password: {
     select: false,
     required: true,
   },
 
-  //! Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
+  //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
   completedTestIds: [{ type: mongoose.Schema.Types.Mixed }],
 
-  //! Kullanıcının katıldığı ancak tamamlamadığı testlerin id lerinin liste olarak tutulduğu property
+  //+ Kullanıcının katıldığı ancak tamamlamadığı testlerin id lerinin liste olarak tutulduğu property
   inProcessTestIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Test' }],
 
-  //! Kullanıcının diğer kullanıcılarla sıralamasının karşılaştırılması için puan bilgisinin tutulduğu property
+  //+ Kullanıcının diğer kullanıcılarla sıralamasının karşılaştırılması için puan bilgisinin tutulduğu property
   rank: {
     type: Number,
     default: 0,
   },
 
-  //! Kullanıcının sisteme erişirken yetkisine göre katmanlara erişmesini sağlayan property
+  //+ Kullanıcının sisteme erişirken yetkisine göre katmanlara erişmesini sağlayan property
   role: {
     type: String,
     default: 'user',
   },
 
-  //! Kullanıcının profil resminin linkinin tutulduğu property
+  //+ Kullanıcının profil resminin linkinin tutulduğu property
   profilePic: {
     type: String,
     default:
@@ -51,5 +51,5 @@ const userSchema = mongoose.Schema({
   },
 });
 
-//!userSchemayı module.exports ile dışarı çıkarıyoruz.
+//+userSchemayı module.exports ile dışarı çıkarıyoruz.
 module.exports = mongoose.model('User', userSchema);

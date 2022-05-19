@@ -1,1 +1,1 @@
-//! Sorularla ilgili testlerin yazıldığı test dosyasıdır.
+//+ Sorularla ilgili testlerin yazıldığı test dosyasıdır.

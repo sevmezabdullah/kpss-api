@@ -1,13 +1,13 @@
-//! Veritabanı bağlantı ve konfigrasyonların yapılacağı db.js dosyasıdır.
+//+ Veritabanı bağlantı ve konfigrasyonların yapılacağı db.js dosyasıdır.
 const mongoose = require('mongoose');
-//! Veritabanı adres bilgisini almak için config dosyasını import ediyoruz
+//+ Veritabanı adres bilgisini almak için config dosyasını import ediyoruz
 const config = require('../config/config');
-//! Veritabanına bağlı olup olmadığımızı kontrol edebileceğimiz dbConnected değişkeni
+//+ Veritabanına bağlı olup olmadığımızı kontrol edebileceğimiz dbConnected değişkeni
 let dbConnected;
-//! Date objesi ile veritabanına bağlandığımız saat:dakika:saniye bilgisini alıyoruz.
+//+ Date objesi ile veritabanına bağlandığımız saat:dakika:saniye bilgisini alıyoruz.
 const date = new Date();
 
-//! Veritabanına bağlanmak için oluşturulan metot
+//+ Veritabanına bağlanmak için oluşturulan metot
 async function connectDB() {
   await mongoose.connect(config.DB_ADRESS, () => {
     console.log(
@@ -18,13 +18,13 @@ async function connectDB() {
   });
 }
 
-//! Veritabanı bağlantısının kesilmesi için yazılan metot
+//+ Veritabanı bağlantısının kesilmesi için yazılan metot
 async function disconnectDB() {
   await mongoose.disconnect();
   dbConnected = false;
 }
 
-//! connectDB ve disconnectDB metotlarını export ediyoruz
+//+ connectDB ve disconnectDB metotlarını export ediyoruz
 module.exports = {
   connectDB,
   disconnectDB,

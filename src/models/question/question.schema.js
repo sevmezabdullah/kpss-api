@@ -1,36 +1,36 @@
-//! QuestionSchama sının tasarlandığı model katmanıdır.
+//+ QuestionSchama sının tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
 
-//! questionSchema oluşturuldu.
+//+ questionSchema oluşturuldu.
 const questionSchema = mongoose.Schema({
-  //! Sorunun gösterileceği metin
+  //+ Sorunun gösterileceği metin
   title: {
     type: String,
     required: true,
   },
 
-  //! Cevap Listesi
+  //+ Cevap Listesi
   answerList: {
     type: [String],
     required: true,
   },
-  //! Doğru cevabın indexi
+  //+ Doğru cevabın indexi
   correctAnswerIndex: {
     type: Number,
     required: true,
   },
 
-  //! Sorunun toplam görüntülenme sayısı
+  //+ Sorunun toplam görüntülenme sayısı
   seenCount: {
     type: Number,
     default: 0,
   },
-  //! Sorunun kategorisi
+  //+ Sorunun kategorisi
   category: {
     type: String,
     required: true,
   },
-  //! Sorunun tipi - test ya da  drawable olabilir. Matematik ve Geometri sorularının ekranda çözülebilmesi için gerekli.
+  //+ Sorunun tipi - test ya da  drawable olabilir. Matematik ve Geometri sorularının ekranda çözülebilmesi için gerekli.
   type: {
     type: String,
     require: true,
@@ -38,5 +38,5 @@ const questionSchema = mongoose.Schema({
   },
 });
 
-//! questionSchema yı module.exports ile dışarı çıkarıyoruz.
+//+ questionSchema yı module.exports ile dışarı çıkarıyoruz.
 module.exports = mongoose.model('Question', questionSchema);
