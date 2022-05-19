@@ -6,7 +6,7 @@ const config = require('../config/config');
 //! Veritabanına bağlanmak için oluşturulan metot
 async function connectDB() {
   await mongoose.connect(config.DB_ADRESS, () => {
-    console.log('Veritabanına bağlandı.');
+    console.log('Veritabanına bağlandı.'.bgMagenta);
   });
 }
 
