@@ -1,9 +1,9 @@
 const http = require('http');
 const app = require('./app');
 const config = require('./config/config');
-const server = http.createServer(app);
 const db = require('./services/db');
 
+const server = http.createServer(app);
 const PORT = config.PORT;
 
 async function startServer() {
