@@ -6,8 +6,9 @@ require('dotenv').config({
 const colors = require('colors');
 colors.enable();
 //!------------------------------------------
-
+//! Projesinin çalışacağı PORT
 const PORT = process.env.PORT;
+//! Projenin bağlanacağı veritabanı adresi
 const DB_ADRESS = process.env.DB_ADRESS;
 
 module.exports = {
