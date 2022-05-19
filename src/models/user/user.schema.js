@@ -25,7 +25,8 @@ const userSchema = mongoose.Schema({
     required: true,
   },
 
-  //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
+  //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25,{question.category.correct:10,question.category.wrong:25}}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
+
   completedTestIds: [{ type: mongoose.Schema.Types.Mixed }],
 
   //+ Kullanıcının katıldığı ancak tamamlamadığı testlerin id lerinin liste olarak tutulduğu property
