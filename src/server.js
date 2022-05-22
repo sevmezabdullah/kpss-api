@@ -6,7 +6,7 @@ const server = http.createServer(app);
 const PORT = config.PORT;
 
 async function startServer() {
-  db.connectDB();
+  db.connectDB(true);
   server.listen(PORT, () => {
     console.log(`Server ${PORT} üzerinde çalışmaya başladı.`.bgMagenta);
   });
