@@ -6,14 +6,35 @@ async function createQuestion(question) {
   const questionDB = new Question(question);
   try {
     const result = await questionDB.save();
-    return `${result.title} sorusu başarıyla eklendi.`;
+    return result;
   } catch (error) {
-    return { error };
+    return { error: error };
   }
 }
 
 //+ Veritabanından soru silen metot
-async function deleteQuestionById(id) {}
+async function deleteQuestionById(id) {
+  try {
+    const result = await Question.findByIdAndDelete(id);
+    return result;
+  } catch (error) {
+    if (error) {
+      return { error: error };
+    }
+  }
+}
+
+//+ Bütün soruları listeleyen metot
+async function getAllQuestion() {
+  try {
+    const result = await Question.find();
+    return result;
+  } catch (error) {
+    if (error) {
+      return { result: error };
+    }
+  }
+}
 
 //+ veritabanındaki soruyu güncelleyen metot
 async function updateQuestionById(id, newQuestionParams) {}
@@ -26,6 +47,7 @@ async function incrementSeenCount(id) {}
 
 module.exports = {
   createQuestion,
+  getAllQuestion,
   deleteQuestionById,
   updateQuestionById,
   getQuestionById,

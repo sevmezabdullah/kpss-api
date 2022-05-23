@@ -6,6 +6,7 @@ const chaiHttp = require('chai-http');
 const questionURL = '/api/v1/question';
 //+ test case lerinden önce veritabanı açma ve kapatma işlemleri için connectDB ve disconnectDB yi import ediyoruz
 const { connectDB, disconnectDB } = require('../../../services/db');
+const { default: mongoose } = require('mongoose');
 //+ chai için kullanacağımız assertion konseptini seçiyoruz [expect,should,assertion] biz shouldu seçtik
 chai.should();
 //+ http isteğini yapabilmek için chainin middleware katmanına chai http özelliğini ekliyoruz.
@@ -21,26 +22,30 @@ describe('Question modeline ait CRUD işlemleri', () => {
   //+ her test case inden önce veritabanını açmasını sağlıyoruz
   beforeEach(() => {
     connectDB();
+    //+ Teste başlamadan önce veritabanından questions koleksiyonunu siliyoruz.
+    mongoose.connection.collections.questions.drop();
   });
   //+ her test case inden sonra veritabanını kapatıyoruz.
   afterEach(() => {
+    //+ Her testten sonra veritabanı bağlantısını kapatıyoruz.
     disconnectDB();
   });
-  it('POST /createQuestion - soru oluştur.', (done) => {
+
+  it('POST /createQuestion - Yeni soru oluştur.', (done) => {
     chai
       .request(app)
       .post(`${questionURL}/createQuestion`)
       .send(question)
       .end((err, response) => {
-        response.should.have.status(200);
+        response.should.have.status(201);
         done();
       });
   });
 
-  it('GET /questionById - ID bilgisine göre soru getir.', (done) => {
+  it('GET /getAllQuestion - Bütün soruları getir..', (done) => {
     chai
       .request(app)
-      .get(`/`)
+      .get(`${questionURL}/getAllQuestion`)
       .end((err, response) => {
         response.should.have.status(200);
         done();
