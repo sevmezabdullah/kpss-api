@@ -5,9 +5,15 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
+<<<<<<< HEAD
     "start": "2022-05-24T18:44:38.267Z",
     "end": "2022-05-24T18:44:40.692Z",
     "duration": 2425,
+=======
+    "start": "2022-05-25T13:18:30.947Z",
+    "end": "2022-05-25T13:18:33.076Z",
+    "duration": 2129,
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,25 +24,37 @@
   },
   "results": [
     {
+<<<<<<< HEAD
       "uuid": "44972b93-5d57-4e9b-a738-485fcfd3e0fb",
+=======
+      "uuid": "6cf53302-3581-43f8-bc35-37c1ae7d2642",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
       "title": "",
-      "fullFile": "/home/abdullah/Node/kpss-api/src/routes/v1/question/question.spec.js",
-      "file": "/src/routes/v1/question/question.spec.js",
+      "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
+      "file": "\\src\\routes\\v1\\question\\question.spec.js",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
+<<<<<<< HEAD
           "uuid": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
+=======
+          "uuid": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
           "title": "Question modeline ait CRUD işlemleri",
-          "fullFile": "/home/abdullah/Node/kpss-api/src/routes/v1/question/question.spec.js",
-          "file": "/src/routes/v1/question/question.spec.js",
+          "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
+          "file": "\\src\\routes\\v1\\question\\question.spec.js",
           "beforeHooks": [
             {
               "title": "\"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "fullTitle": "Question modeline ait CRUD işlemleri \"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "timedOut": false,
+<<<<<<< HEAD
               "duration": 5,
+=======
+              "duration": 7,
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +63,13 @@
               "context": null,
               "code": "connectDB();\n//+ Teste başlamadan önce veritabanından questions koleksiyonunu siliyoruz.\nmongoose.connection.collections.questions.drop();",
               "err": {},
+<<<<<<< HEAD
               "uuid": "13f8fb6d-d9fd-48e1-abf3-f8fd5f2e176c",
               "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
+=======
+              "uuid": "8af1b036-27ec-464a-85ab-172c849ec6f5",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "isHook": true,
               "skipped": false
             }
@@ -65,8 +88,13 @@
               "context": null,
               "code": "//+ Her testten sonra veritabanı bağlantısını kapatıyoruz.\ndisconnectDB();",
               "err": {},
+<<<<<<< HEAD
               "uuid": "b2065389-62de-4bc6-abce-5df7086fb9fd",
               "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
+=======
+              "uuid": "d52a6c8b-9a8a-438b-8455-fd24857e369d",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "isHook": true,
               "skipped": false
             }
@@ -76,7 +104,11 @@
               "title": "POST /createQuestion - Yeni soru oluştur.",
               "fullTitle": "Question modeline ait CRUD işlemleri POST /createQuestion - Yeni soru oluştur.",
               "timedOut": false,
+<<<<<<< HEAD
               "duration": 2379,
+=======
+              "duration": 2070,
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -85,8 +117,13 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .post(`${questionURL}/createQuestion`)\n  .send(question)\n  .end((err, response) => {\n    response.should.have.status(201);\n    done();\n  });",
               "err": {},
+<<<<<<< HEAD
               "uuid": "62886ab5-c897-4702-8220-c6387bb1aa03",
               "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
+=======
+              "uuid": "d11cba90-fe06-4d10-8127-6c27e55451ca",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "isHook": false,
               "skipped": false
             },
@@ -94,7 +131,11 @@
               "title": "GET /getAllQuestion - Bütün soruları getir..",
               "fullTitle": "Question modeline ait CRUD işlemleri GET /getAllQuestion - Bütün soruları getir..",
               "timedOut": false,
+<<<<<<< HEAD
               "duration": 10,
+=======
+              "duration": 21,
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -103,21 +144,35 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .get(`${questionURL}/getAllQuestion`)\n  .end((err, response) => {\n    response.should.have.status(200);\n    done();\n  });",
               "err": {},
+<<<<<<< HEAD
               "uuid": "452cfb0a-36da-40d8-b28a-690c4439724d",
               "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
+=======
+              "uuid": "2a6bf2bf-acdf-4aba-a601-c33542bc7362",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
+<<<<<<< HEAD
             "62886ab5-c897-4702-8220-c6387bb1aa03",
             "452cfb0a-36da-40d8-b28a-690c4439724d"
+=======
+            "d11cba90-fe06-4d10-8127-6c27e55451ca",
+            "2a6bf2bf-acdf-4aba-a601-c33542bc7362"
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
+<<<<<<< HEAD
           "duration": 2389,
+=======
+          "duration": 2091,
+>>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
           "root": false,
           "rootEmpty": false,
           "_timeout": 15000
