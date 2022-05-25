@@ -5,9 +5,9 @@
     "passes": 2,
     "pending": 0,
     "failures": 0,
-    "start": "2022-05-23T20:58:15.863Z",
-    "end": "2022-05-23T20:58:18.292Z",
-    "duration": 2429,
+    "start": "2022-05-25T13:18:30.947Z",
+    "end": "2022-05-25T13:18:33.076Z",
+    "duration": 2129,
     "testsRegistered": 2,
     "passPercent": 100,
     "pendingPercent": 0,
@@ -18,25 +18,25 @@
   },
   "results": [
     {
-      "uuid": "9ea0eac9-b07f-42a0-a36d-c48c42c9ac9e",
+      "uuid": "6cf53302-3581-43f8-bc35-37c1ae7d2642",
       "title": "",
-      "fullFile": "/home/abdullah/Node/kpss-api/src/routes/v1/question/question.spec.js",
-      "file": "/src/routes/v1/question/question.spec.js",
+      "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
+      "file": "\\src\\routes\\v1\\question\\question.spec.js",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-          "uuid": "e86def98-e2e2-4137-8623-34f54f116267",
+          "uuid": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
           "title": "Question modeline ait CRUD işlemleri",
-          "fullFile": "/home/abdullah/Node/kpss-api/src/routes/v1/question/question.spec.js",
-          "file": "/src/routes/v1/question/question.spec.js",
+          "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
+          "file": "\\src\\routes\\v1\\question\\question.spec.js",
           "beforeHooks": [
             {
               "title": "\"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "fullTitle": "Question modeline ait CRUD işlemleri \"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "timedOut": false,
-              "duration": 3,
+              "duration": 7,
               "state": null,
               "speed": null,
               "pass": false,
@@ -45,8 +45,8 @@
               "context": null,
               "code": "connectDB();\n//+ Teste başlamadan önce veritabanından questions koleksiyonunu siliyoruz.\nmongoose.connection.collections.questions.drop();",
               "err": {},
-              "uuid": "41413383-8d13-4eb0-a760-4d9366ed9626",
-              "parentUUID": "e86def98-e2e2-4137-8623-34f54f116267",
+              "uuid": "8af1b036-27ec-464a-85ab-172c849ec6f5",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
               "isHook": true,
               "skipped": false
             }
@@ -65,8 +65,8 @@
               "context": null,
               "code": "//+ Her testten sonra veritabanı bağlantısını kapatıyoruz.\ndisconnectDB();",
               "err": {},
-              "uuid": "02fbdf8a-fcdf-4e68-8179-01e0e5ea2e8b",
-              "parentUUID": "e86def98-e2e2-4137-8623-34f54f116267",
+              "uuid": "d52a6c8b-9a8a-438b-8455-fd24857e369d",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
               "isHook": true,
               "skipped": false
             }
@@ -76,7 +76,7 @@
               "title": "POST /createQuestion - Yeni soru oluştur.",
               "fullTitle": "Question modeline ait CRUD işlemleri POST /createQuestion - Yeni soru oluştur.",
               "timedOut": false,
-              "duration": 2382,
+              "duration": 2070,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -85,8 +85,8 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .post(`${questionURL}/createQuestion`)\n  .send(question)\n  .end((err, response) => {\n    response.should.have.status(201);\n    done();\n  });",
               "err": {},
-              "uuid": "b9ac6170-5658-418f-a360-876f1c99aefa",
-              "parentUUID": "e86def98-e2e2-4137-8623-34f54f116267",
+              "uuid": "d11cba90-fe06-4d10-8127-6c27e55451ca",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
               "isHook": false,
               "skipped": false
             },
@@ -94,7 +94,7 @@
               "title": "GET /getAllQuestion - Bütün soruları getir..",
               "fullTitle": "Question modeline ait CRUD işlemleri GET /getAllQuestion - Bütün soruları getir..",
               "timedOut": false,
-              "duration": 11,
+              "duration": 21,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -103,21 +103,21 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .get(`${questionURL}/getAllQuestion`)\n  .end((err, response) => {\n    response.should.have.status(200);\n    done();\n  });",
               "err": {},
-              "uuid": "169f0527-d891-4818-a683-7776da6e1c0e",
-              "parentUUID": "e86def98-e2e2-4137-8623-34f54f116267",
+              "uuid": "2a6bf2bf-acdf-4aba-a601-c33542bc7362",
+              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-            "b9ac6170-5658-418f-a360-876f1c99aefa",
-            "169f0527-d891-4818-a683-7776da6e1c0e"
+            "d11cba90-fe06-4d10-8127-6c27e55451ca",
+            "2a6bf2bf-acdf-4aba-a601-c33542bc7362"
           ],
           "failures": [],
           "pending": [],
           "skipped": [],
-          "duration": 2393,
+          "duration": 2091,
           "root": false,
           "rootEmpty": false,
           "_timeout": 15000
