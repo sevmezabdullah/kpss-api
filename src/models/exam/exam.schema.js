@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 
 //+ TestSchemayı tasarlıyoruz
-const testSchema = mongoose.Schema({
+const examSchema = mongoose.Schema({
   //+ Testin başlığını tutan propertydir.
   title: {
     type: String,
@@ -45,4 +45,4 @@ const testSchema = mongoose.Schema({
 });
 
 //+ testSchemayı module.exports ile dışarı çıkarıyoruz.
-module.exports = mongoose.model('Test', testSchema);
+module.exports = mongoose.model('Exam', examSchema);
