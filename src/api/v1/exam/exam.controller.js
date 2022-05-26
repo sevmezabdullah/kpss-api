@@ -2,6 +2,7 @@ const {
   createExam,
   getExamById,
   deleteExamById,
+  addQuestionByIdtoExam,
 } = require('../../../models/exam/exam.access');
 
 async function createExamController(request, response) {
@@ -32,8 +33,22 @@ async function deleteExamByIdController(request, response) {
   }
 }
 
+async function addQuestionByIdToExamController(request, response) {
+  console.log(request.body);
+  const { questionInformation } = request.body;
+  const addedQuestionById = await addQuestionByIdtoExam(
+    '628fc4df6e46339e36ea75e6',
+    '628fc3d957766900e2068128'
+  );
+
+  return response
+    .status(200)
+    .json({ result: addedQuestionById, message: 'Soru başarıyla eklendi.' });
+}
+
 module.exports = {
   createExamController,
   getExamByIdController,
   deleteExamByIdController,
+  addQuestionByIdToExamController,
 };

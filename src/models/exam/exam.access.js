@@ -14,10 +14,6 @@ async function createExam(exam) {
     }
   }
 }
-
-//+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot
-async function getAllQuestionById(examId) {}
-
 //+ Id bilgisine göre exam getiren metot
 async function getExamById(examId, userId) {
   const exam = await Exam.findByIdAndUpdate(examId, {
@@ -27,23 +23,31 @@ async function getExamById(examId, userId) {
   return exam;
 }
 
-//+ Id bilgisine göre gönderilen exam bilgilerini güncelleyen metot
-async function updateExamById(ExamId, newExam) {}
+//+ Id bilgisine göre exam silen metot
+async function deleteExamById(examId) {
+  const exam = await Exam.findByIdAndDelete(examId);
+  return exam;
+}
 
 //+ Id bilgisine göre gönderilen soruyu exam ekleyen metot
-async function addQuestionByIdtoExam(ExamId, questionId) {}
+async function addQuestionByIdtoExam(examId, questionId) {
+  const exam = await Exam.findByIdAndUpdate(examId, {
+    $push: { questionList: questionId },
+  });
+  return exam;
+}
+
+//+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot
+async function getAllQuestionById(examId) {}
+
+//+ Id bilgisine göre gönderilen exam bilgilerini güncelleyen metot
+async function updateExamById(ExamId, newExam) {}
 
 //+ Id bilgisine göre exam içerisinde bulunan soruyu silen metot
 async function deleteQuestionByIdFromExam(ExamId, questionId) {}
 
 //+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
 async function getAllUserHasBeenSeenExam(examId) {}
-
-//+ Id bilgisine göre exam silen metot
-async function deleteExamById(examId) {
-  const exam = await Exam.findByIdAndDelete(examId);
-  return exam;
-}
 
 //+ Id bilgisine göre exam görüntülenme sayısını veren metot
 async function getHowManySeenExamById(ExamId) {}
@@ -67,9 +71,6 @@ async function getAllQuestionById(examId) {}
 
 //+ Id bilgisine göre gönderilen Exam bilgilerini güncelleyen metot
 async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre gönderilen soruyu Exame ekleyen metot
-async function addQuestionByIdtoExam(ExamId, questionId) {}
 
 //+ Id bilgisine göre Exam içerisinde bulunan soruyu silen metot
 async function deleteQuestionByIdFromExam(ExamId, questionId) {}
