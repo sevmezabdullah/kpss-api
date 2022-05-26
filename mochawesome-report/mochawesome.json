@@ -1,21 +1,15 @@
 {
   "stats": {
     "suites": 1,
-    "tests": 2,
+    "tests": 3,
     "passes": 2,
     "pending": 0,
-    "failures": 0,
-<<<<<<< HEAD
-    "start": "2022-05-24T18:44:38.267Z",
-    "end": "2022-05-24T18:44:40.692Z",
-    "duration": 2425,
-=======
-    "start": "2022-05-25T13:18:30.947Z",
-    "end": "2022-05-25T13:18:33.076Z",
-    "duration": 2129,
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
-    "testsRegistered": 2,
-    "passPercent": 100,
+    "failures": 1,
+    "start": "2022-05-25T20:01:41.551Z",
+    "end": "2022-05-25T20:01:44.166Z",
+    "duration": 2615,
+    "testsRegistered": 3,
+    "passPercent": 66.66666666666666,
     "pendingPercent": 0,
     "other": 0,
     "hasOther": false,
@@ -24,37 +18,25 @@
   },
   "results": [
     {
-<<<<<<< HEAD
-      "uuid": "44972b93-5d57-4e9b-a738-485fcfd3e0fb",
-=======
-      "uuid": "6cf53302-3581-43f8-bc35-37c1ae7d2642",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+      "uuid": "817b2728-2b75-4322-b153-babbef2291e5",
       "title": "",
-      "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
-      "file": "\\src\\routes\\v1\\question\\question.spec.js",
+      "fullFile": "/home/abdullah/Node/kpss-api/src/api/v1/question/question.spec.js",
+      "file": "/src/api/v1/question/question.spec.js",
       "beforeHooks": [],
       "afterHooks": [],
       "tests": [],
       "suites": [
         {
-<<<<<<< HEAD
-          "uuid": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
-=======
-          "uuid": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+          "uuid": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
           "title": "Question modeline ait CRUD işlemleri",
-          "fullFile": "C:\\Users\\399469\\Desktop\\NodeJS\\kpss-api\\kpss-api\\src\\routes\\v1\\question\\question.spec.js",
-          "file": "\\src\\routes\\v1\\question\\question.spec.js",
+          "fullFile": "/home/abdullah/Node/kpss-api/src/api/v1/question/question.spec.js",
+          "file": "/src/api/v1/question/question.spec.js",
           "beforeHooks": [
             {
               "title": "\"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "fullTitle": "Question modeline ait CRUD işlemleri \"before each\" hook in \"Question modeline ait CRUD işlemleri\"",
               "timedOut": false,
-<<<<<<< HEAD
-              "duration": 5,
-=======
-              "duration": 7,
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "duration": 0,
               "state": null,
               "speed": null,
               "pass": false,
@@ -63,13 +45,8 @@
               "context": null,
               "code": "connectDB();\n//+ Teste başlamadan önce veritabanından questions koleksiyonunu siliyoruz.\nmongoose.connection.collections.questions.drop();",
               "err": {},
-<<<<<<< HEAD
-              "uuid": "13f8fb6d-d9fd-48e1-abf3-f8fd5f2e176c",
-              "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
-=======
-              "uuid": "8af1b036-27ec-464a-85ab-172c849ec6f5",
-              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "uuid": "9986fb1e-bc25-4eb2-aab8-eca0a34cb9f7",
+              "parentUUID": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
               "isHook": true,
               "skipped": false
             }
@@ -88,13 +65,8 @@
               "context": null,
               "code": "//+ Her testten sonra veritabanı bağlantısını kapatıyoruz.\ndisconnectDB();",
               "err": {},
-<<<<<<< HEAD
-              "uuid": "b2065389-62de-4bc6-abce-5df7086fb9fd",
-              "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
-=======
-              "uuid": "d52a6c8b-9a8a-438b-8455-fd24857e369d",
-              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "uuid": "404d9a9b-4643-48d7-b6d2-b137a5180e4d",
+              "parentUUID": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
               "isHook": true,
               "skipped": false
             }
@@ -104,11 +76,7 @@
               "title": "POST /createQuestion - Yeni soru oluştur.",
               "fullTitle": "Question modeline ait CRUD işlemleri POST /createQuestion - Yeni soru oluştur.",
               "timedOut": false,
-<<<<<<< HEAD
-              "duration": 2379,
-=======
-              "duration": 2070,
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "duration": 2563,
               "state": "passed",
               "speed": "slow",
               "pass": true,
@@ -117,13 +85,8 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .post(`${questionURL}/createQuestion`)\n  .send(question)\n  .end((err, response) => {\n    response.should.have.status(201);\n    done();\n  });",
               "err": {},
-<<<<<<< HEAD
-              "uuid": "62886ab5-c897-4702-8220-c6387bb1aa03",
-              "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
-=======
-              "uuid": "d11cba90-fe06-4d10-8127-6c27e55451ca",
-              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "uuid": "c48ca101-3057-4d1b-85a7-b4c2e8ef3d96",
+              "parentUUID": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
               "isHook": false,
               "skipped": false
             },
@@ -131,11 +94,7 @@
               "title": "GET /getAllQuestion - Bütün soruları getir..",
               "fullTitle": "Question modeline ait CRUD işlemleri GET /getAllQuestion - Bütün soruları getir..",
               "timedOut": false,
-<<<<<<< HEAD
-              "duration": 10,
-=======
-              "duration": 21,
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "duration": 13,
               "state": "passed",
               "speed": "fast",
               "pass": true,
@@ -144,35 +103,45 @@
               "context": null,
               "code": "chai\n  .request(app)\n  .get(`${questionURL}/getAllQuestion`)\n  .end((err, response) => {\n    response.should.have.status(200);\n    done();\n  });",
               "err": {},
-<<<<<<< HEAD
-              "uuid": "452cfb0a-36da-40d8-b28a-690c4439724d",
-              "parentUUID": "7de01609-2309-4bde-90ee-cf7f5c4acfdd",
-=======
-              "uuid": "2a6bf2bf-acdf-4aba-a601-c33542bc7362",
-              "parentUUID": "abd45ffe-ad99-4c70-98d4-f4a6b5224e04",
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+              "uuid": "aec7aee1-f7c1-49d9-8485-633bb2028f7b",
+              "parentUUID": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
+              "isHook": false,
+              "skipped": false
+            },
+            {
+              "title": "PUT /updateQuestion - Id bilgisine göre soruyu günceller. ",
+              "fullTitle": "Question modeline ait CRUD işlemleri PUT /updateQuestion - Id bilgisine göre soruyu günceller. ",
+              "timedOut": false,
+              "duration": 3,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "const generatedQuestion = new Question(question);\nconst result = await generatedQuestion.save();\nconnectDB();\nchai\n  .request(app)\n  .put(`${questionURL}/updateQuestion/${result.id}`)\n  .send({\n    title: 'f(x)=2*3 ne yapar',\n    answerList: ['Akdeniz', 'Karadeniz', 'İç Anadolu', 'Doğu Anadolu'],\n    correctAnswerIndex: 0,\n    category: 'Matematik',\n  })\n  .set('content-type', 'application/json')\n  .end((err, response) => {\n    response.should.have.status(200);\n  });\nawait delay(1000);",
+              "err": {
+                "message": "MongoNotConnectedError: MongoClient must be connected to perform this operation",
+                "estack": "MongoNotConnectedError: MongoClient must be connected to perform this operation\n    at getTopology (node_modules/mongodb/lib/utils.js:282:11)\n    at /home/abdullah/Node/kpss-api/node_modules/mongodb/lib/operations/execute_operation.js:19:48\n    at maybePromise (node_modules/mongodb/lib/utils.js:409:5)\n    at executeOperation (node_modules/mongodb/lib/operations/execute_operation.js:16:37)\n    at Collection.insertOne (node_modules/mongodb/lib/collection.js:149:57)\n    at NativeCollection.<computed> [as insertOne] (node_modules/mongoose/lib/drivers/node-mongodb-native/collection.js:202:33)\n    at model.Model.$__handleSave (node_modules/mongoose/lib/model.js:297:33)\n    at model.Model.$__save (node_modules/mongoose/lib/model.js:376:8)\n    at /home/abdullah/Node/kpss-api/node_modules/kareem/index.js:276:16\n    at /home/abdullah/Node/kpss-api/node_modules/kareem/index.js:78:15\n    at processTicksAndRejections (node:internal/process/task_queues:78:11)",
+                "diff": null
+              },
+              "uuid": "82038c07-5571-479b-91b2-38fae3644f26",
+              "parentUUID": "a765c201-a860-4ef6-ace8-24c5617ca0a8",
               "isHook": false,
               "skipped": false
             }
           ],
           "suites": [],
           "passes": [
-<<<<<<< HEAD
-            "62886ab5-c897-4702-8220-c6387bb1aa03",
-            "452cfb0a-36da-40d8-b28a-690c4439724d"
-=======
-            "d11cba90-fe06-4d10-8127-6c27e55451ca",
-            "2a6bf2bf-acdf-4aba-a601-c33542bc7362"
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+            "c48ca101-3057-4d1b-85a7-b4c2e8ef3d96",
+            "aec7aee1-f7c1-49d9-8485-633bb2028f7b"
           ],
-          "failures": [],
+          "failures": [
+            "82038c07-5571-479b-91b2-38fae3644f26"
+          ],
           "pending": [],
           "skipped": [],
-<<<<<<< HEAD
-          "duration": 2389,
-=======
-          "duration": 2091,
->>>>>>> fd23a8db2b242329c36c805a40a38822c1ea707e
+          "duration": 2579,
           "root": false,
           "rootEmpty": false,
           "_timeout": 15000

@@ -3,9 +3,9 @@
 const express = require('express');
 const api = express();
 const questionRouter = require('./v1/question/question.routes');
-
+const examRouter = require('./v1/exam/exam.routes');
 api.use('/v1/question', questionRouter);
-//api.use('/v1/exam',testRouter);
+api.use('/v1/exam', examRouter);
 //api.use('/v1/user',userRouter);
 
 //api.use('/v2/question',questionRouter);

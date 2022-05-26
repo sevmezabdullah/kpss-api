@@ -2,6 +2,8 @@ const {
   createQuestion,
   deleteQuestionById,
   getAllQuestion,
+  updateQuestionById,
+  getQuestionById,
 } = require('../../../models/question/question.access');
 
 async function createQuestionContoller(request, response) {
@@ -51,6 +53,22 @@ async function getAllQuestionController(request, response) {
   }
 }
 
+async function updateQuestionByIdController(request, response) {
+  const newQuestion = request.body;
+  const updatedQuestion = await updateQuestionById(
+    request.params.id,
+    newQuestion
+  );
+  return response
+    .status(200)
+    .json({ updatedQuestion, message: 'Güncelleme tamamlandı.' });
+}
+
+async function getQuestionByIdController(request, response) {
+  const question = await getQuestionById(request.params.id);
+  return response.status(200).json({ question, message: 'Soru bulundu' });
+}
+
 function errorChecker(result, response) {
   const errorCode = result.error.code;
 
@@ -72,4 +90,6 @@ module.exports = {
   createQuestionContoller,
   deleteQuestionController,
   getAllQuestionController,
+  updateQuestionByIdController,
+  getQuestionByIdController,
 };

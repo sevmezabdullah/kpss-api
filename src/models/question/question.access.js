@@ -47,17 +47,8 @@ async function getAllQuestion() {
 //+ veritabanındaki soruyu güncelleyen metot
 async function updateQuestionById(id, newQuestionParams) {
   try {
-    const result = await Question.findByIdAndUpdate(
-      id,
-      newQuestionParams,
-      (err, docs) => {
-        if (err) {
-          return { error };
-        } else {
-          return docs;
-        }
-      }
-    );
+    const result = await Question.findByIdAndUpdate(id, newQuestionParams);
+    return result;
   } catch (error) {
     if (error) {
       return { result: error };
@@ -72,7 +63,16 @@ function errorManager(error, message, errorCode) {
   return { error: error, message: message, errorCode: 404 };
 }
 //+ Id bilgisine göre soruyu getiren metot
-async function getQuestionById(id) {}
+async function getQuestionById(id) {
+  try {
+    const result = await Question.findById(id);
+    return result;
+  } catch (err) {
+    if (err) {
+      return { result: err };
+    }
+  }
+}
 
 //+ Id bilgisine göre sorunun görüntülenme sayısını artıran metot
 async function incrementSeenCount(id) {}

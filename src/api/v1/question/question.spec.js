@@ -12,6 +12,8 @@ chai.should();
 //+ http isteğini yapabilmek için chainin middleware katmanına chai http özelliğini ekliyoruz.
 chai.use(chaiHttp);
 
+const Question = require('../../../models/question/question.schema');
+
 describe('Question modeline ait CRUD işlemleri', () => {
   const question = {
     title: 'Türkiyenin başkenti neresidir ? ',
@@ -38,6 +40,7 @@ describe('Question modeline ait CRUD işlemleri', () => {
       .send(question)
       .end((err, response) => {
         response.should.have.status(201);
+
         done();
       });
   });
@@ -49,6 +52,25 @@ describe('Question modeline ait CRUD işlemleri', () => {
       .end((err, response) => {
         response.should.have.status(200);
         done();
+      });
+  });
+
+  it('PUT /updateQuestion - Id bilgisine göre soruyu günceller. ', async () => {
+    const generatedQuestion = new Question(question);
+    const result = await generatedQuestion.save();
+
+    chai
+      .request(app)
+      .put(`${questionURL}/updateQuestion/${result.id}`)
+      .send({
+        title: 'f(x)=2*3 ne yapar',
+        answerList: ['Akdeniz', 'Karadeniz', 'İç Anadolu', 'Doğu Anadolu'],
+        correctAnswerIndex: 0,
+        category: 'Matematik',
+      })
+      .set('content-type', 'application/json')
+      .end((err, response) => {
+        response.should.have.status(200);
       });
   });
 });
