@@ -19,8 +19,11 @@ async function createExam(exam) {
 async function getAllQuestionById(examId) {}
 
 //+ Id bilgisine göre exam getiren metot
-async function getExamById(examId) {
-  const exam = await Exam.findByIdAndUpdate(examId, { $inc: { seenCount: 1 } });
+async function getExamById(examId, userId) {
+  const exam = await Exam.findByIdAndUpdate(examId, {
+    $inc: { seenCount: 1 },
+    $push: { userIds: userId },
+  });
   return exam;
 }
 
@@ -34,7 +37,7 @@ async function addQuestionByIdtoExam(ExamId, questionId) {}
 async function deleteQuestionByIdFromExam(ExamId, questionId) {}
 
 //+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
-async function getAllUserHasBeenSeenExam(ExamId) {}
+async function getAllUserHasBeenSeenExam(examId) {}
 
 //+ Id bilgisine göre exam silen metot
 async function deleteExamById(examId) {

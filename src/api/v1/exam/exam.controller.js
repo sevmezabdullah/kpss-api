@@ -12,7 +12,9 @@ async function createExamController(request, response) {
   return response.status(201).json(createdExam);
 }
 async function getExamByIdController(request, response) {
-  const exam = await getExamById(request.params.id);
+  const userId = request.body.userId;
+  const exam = await getExamById(request.params.id, userId);
+
   if (exam) {
     return response.status(200).json({ result: exam });
   }
@@ -29,6 +31,7 @@ async function deleteExamByIdController(request, response) {
       .json({ result: 'Sonuç bulunamadı. Silme işlemi başarısız' });
   }
 }
+
 module.exports = {
   createExamController,
   getExamByIdController,
