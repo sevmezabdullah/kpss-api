@@ -5,11 +5,22 @@ const {
   getExamByIdController,
   deleteExamByIdController,
   addQuestionByIdToExamController,
+  getAllExamController,
+  getAllQuestionInExamController,
+  deleteQuestionByIdFromExamController,
 } = require('./exam.controller');
+
+examRouter.get('/getAllExam', getAllExamController);
+examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
+examRouter.get('/getExamById/:id', getExamByIdController);
 
 examRouter.post('/createExam', createExamController);
 examRouter.post('/addQuestionById', addQuestionByIdToExamController);
-examRouter.get('/getExamById/:id', getExamByIdController);
+
 examRouter.delete('/deleteExamById/:id', deleteExamByIdController);
+examRouter.delete(
+  '/deleteQuestionFromExam',
+  deleteQuestionByIdFromExamController
+);
 
 module.exports = examRouter;

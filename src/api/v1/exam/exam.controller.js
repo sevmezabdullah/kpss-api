@@ -3,6 +3,9 @@ const {
   getExamById,
   deleteExamById,
   addQuestionByIdtoExam,
+  getAllExam,
+  getAllQuestionById,
+  deleteQuestionByIdFromExam,
 } = require('../../../models/exam/exam.access');
 
 async function createExamController(request, response) {
@@ -34,11 +37,9 @@ async function deleteExamByIdController(request, response) {
 }
 
 async function addQuestionByIdToExamController(request, response) {
-  console.log(request.body);
-  const { questionInformation } = request.body;
   const addedQuestionById = await addQuestionByIdtoExam(
-    '628fc4df6e46339e36ea75e6',
-    '628fc3d957766900e2068128'
+    request.body.examId,
+    request.body.questionId
   );
 
   return response
@@ -46,9 +47,32 @@ async function addQuestionByIdToExamController(request, response) {
     .json({ result: addedQuestionById, message: 'Soru başarıyla eklendi.' });
 }
 
+async function getAllExamController(request, response) {
+  const allExams = await getAllExam();
+
+  return response.status(200).json(allExams);
+}
+
+async function getAllQuestionInExamController(request, response) {
+  const allQuestionInExamById = await getAllQuestionById(request.body.examId);
+
+  return response.status(200).json(allQuestionInExamById);
+}
+
+async function deleteQuestionByIdFromExamController(request, response) {
+  const result = await deleteQuestionByIdFromExam(
+    request.body.examId,
+    request.body.questionId
+  );
+  return response.status(200).json(result);
+}
+
 module.exports = {
   createExamController,
   getExamByIdController,
   deleteExamByIdController,
   addQuestionByIdToExamController,
+  getAllExamController,
+  getAllQuestionInExamController,
+  deleteQuestionByIdFromExamController,
 };

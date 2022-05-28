@@ -1,5 +1,6 @@
 //+ ExamSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
 
+const { options } = require('../../api/v1/exam/exam.routes');
 const Exam = require('./exam.schema');
 
 //+ Exam Oluşturan metot
@@ -37,14 +38,30 @@ async function addQuestionByIdtoExam(examId, questionId) {
   return exam;
 }
 
+async function getAllExam() {
+  const exams = await Exam.find({});
+  return exams;
+}
+
 //+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot
-async function getAllQuestionById(examId) {}
+async function getAllQuestionById(examId) {
+  const questionsInExam = await Exam.findOne({ _id: examId })
+    .select('questionList')
+    .populate('questionList')
+    .exec();
+  return questionsInExam;
+}
+
+//+ Id bilgisine göre exam içerisinde bulunan soruyu silen metot
+async function deleteQuestionByIdFromExam(examId, questionId) {
+  const result = await Exam.findByIdAndUpdate(examId, {
+    $pull: { questionList: questionId },
+  });
+  return result;
+}
 
 //+ Id bilgisine göre gönderilen exam bilgilerini güncelleyen metot
 async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre exam içerisinde bulunan soruyu silen metot
-async function deleteQuestionByIdFromExam(ExamId, questionId) {}
 
 //+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
 async function getAllUserHasBeenSeenExam(examId) {}
@@ -66,14 +83,8 @@ async function incrementWrongAnswerCount(ExamId) {}
 
 //+ Id bilgisine göre exam görüntülenme sayısını artıran metot
 
-//+ Id bilgisine göre Exam içerisindeki bütün soruları getiren metot
-async function getAllQuestionById(examId) {}
-
 //+ Id bilgisine göre gönderilen Exam bilgilerini güncelleyen metot
 async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre Exam içerisinde bulunan soruyu silen metot
-async function deleteQuestionByIdFromExam(ExamId, questionId) {}
 
 //+ Id bilgisine göre Exami görüntüleyen kullanıcıların listesini gönderen metot
 async function getAllUserHasBeenSeenExam(ExamId) {}
@@ -107,4 +118,5 @@ module.exports = {
   getHowManyWrongAnswerExamById,
   incrementCorrectAnswerCount,
   incrementWrongAnswerCount,
+  getAllExam,
 };
