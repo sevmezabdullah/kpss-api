@@ -6,6 +6,7 @@ const {
   getAllExam,
   getAllQuestionById,
   deleteQuestionByIdFromExam,
+  getAllUserHasBeenSeenExam,
 } = require('../../../models/exam/exam.access');
 
 async function createExamController(request, response) {
@@ -59,6 +60,12 @@ async function getAllQuestionInExamController(request, response) {
   return response.status(200).json(allQuestionInExamById);
 }
 
+async function getAllUserHasBeenSeenController(request, response) {
+  const hasBeenSeenUsers = await getAllUserHasBeenSeenExam(request.body.examId);
+  console.log(request.body);
+  return response.status(200).json(hasBeenSeenUsers);
+}
+
 async function deleteQuestionByIdFromExamController(request, response) {
   const result = await deleteQuestionByIdFromExam(
     request.body.examId,
@@ -75,4 +82,5 @@ module.exports = {
   getAllExamController,
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
+  getAllUserHasBeenSeenController,
 };

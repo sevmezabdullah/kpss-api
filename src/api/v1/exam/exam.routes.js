@@ -8,11 +8,13 @@ const {
   getAllExamController,
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
+  getAllUserHasBeenSeenController,
 } = require('./exam.controller');
 
 examRouter.get('/getAllExam', getAllExamController);
 examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
 examRouter.get('/getExamById/:id', getExamByIdController);
+examRouter.get('/getAllUsersHasBeenSeen', getAllUserHasBeenSeenController);
 
 examRouter.post('/createExam', createExamController);
 examRouter.post('/addQuestionById', addQuestionByIdToExamController);

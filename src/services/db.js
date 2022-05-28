@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 //+ Veritabanı adres bilgisini almak için config dosyasını import ediyoruz
 const config = require('../config/config');
 
+const User = require('../models/user/user.schema');
+
 //+ Date objesi ile veritabanına bağlandığımız saat:dakika:saniye bilgisini alıyoruz.
 const date = new Date();
 

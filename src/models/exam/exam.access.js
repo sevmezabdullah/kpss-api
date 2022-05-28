@@ -59,12 +59,22 @@ async function deleteQuestionByIdFromExam(examId, questionId) {
   });
   return result;
 }
+//@TODO hata giderilecek
+//+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
+async function getAllUserHasBeenSeenExam(examId) {
+  const allUsersHasBeenSeen = await Exam.findById(examId)
+    .select('userIds')
+    .populate({
+      path: 'userIds',
+      model: 'User',
+    })
+    .exec();
+
+  return allUsersHasBeenSeen;
+}
 
 //+ Id bilgisine göre gönderilen exam bilgilerini güncelleyen metot
 async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
-async function getAllUserHasBeenSeenExam(examId) {}
 
 //+ Id bilgisine göre exam görüntülenme sayısını veren metot
 async function getHowManySeenExamById(ExamId) {}
@@ -85,9 +95,6 @@ async function incrementWrongAnswerCount(ExamId) {}
 
 //+ Id bilgisine göre gönderilen Exam bilgilerini güncelleyen metot
 async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre Exami görüntüleyen kullanıcıların listesini gönderen metot
-async function getAllUserHasBeenSeenExam(ExamId) {}
 
 //+ Id bilgisine göre Examin görüntülenme sayısını veren metot
 async function getHowManySeenExamById(ExamId) {}
