@@ -14,18 +14,6 @@ const examSchema = mongoose.Schema({
   //+ Teste katılan kullanıcların id lerinin liste tipinde tutulduğu property dir.
   userIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 
-  //+ Testte verilen toplam doğru cevap sayısıdır.
-  correctCount: {
-    type: Number,
-    default: 0,
-  },
-
-  //+ Testte verilen toplan yanlış cevap sayıdır.
-  wrongCount: {
-    type: Number,
-    default: 0,
-  },
-
   //+ Testin toplam görüntülenme sayısıdır.
   seenCount: {
     type: Number,

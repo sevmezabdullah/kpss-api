@@ -34,16 +34,22 @@ async function deleteQuestionById(id) {
 
 //+ Bütün soruları listeleyen metot
 async function getAllQuestion() {
-  try {
-    const result = await Question.find();
-    return result;
-  } catch (error) {
-    if (error) {
-      return { result: error };
-    }
-  }
+  const result = await Question.find();
+  return result;
 }
 
+async function checkUserAnswer(questionId, choosenIndex) {
+  const question = await Question.findById(questionId);
+  if (question.correctAnswerIndex === choosenIndex) {
+    await Question.findByIdAndUpdate(questionId, { $inc: { correctCount: 1 } });
+    return { message: 'Cevap Doğru' };
+  } else {
+    await Question.findByIdAndUpdate(questionId, { $inc: { wrongCount: 1 } });
+    return { message: 'Cevap Yanlış' };
+  }
+
+  //  return question;
+}
 //+ veritabanındaki soruyu güncelleyen metot
 async function updateQuestionById(id, newQuestionParams) {
   try {
@@ -74,6 +80,18 @@ async function getQuestionById(id) {
   }
 }
 
+//+ Id bilgisine göre question toplam doğru cevaplanma sayısını veren metot
+async function getHowManyCorrectAnswerQuestionById(questionId) {
+  const result = await Question.findById(questionId).select('correctCount');
+  return result;
+}
+
+//+ Id bilgisine göre question toplam yanlış cevaplanma sayısını veren metot
+async function getHowManyWrongAnswerQuestionById(questionId) {
+  const result = await Question.findById(questionId).select('wrongCount');
+  return result;
+}
+
 //+ Id bilgisine göre sorunun görüntülenme sayısını artıran metot
 async function incrementSeenCount(id) {}
 
@@ -84,4 +102,7 @@ module.exports = {
   updateQuestionById,
   getQuestionById,
   incrementSeenCount,
+  checkUserAnswer,
+  getHowManyCorrectAnswerQuestionById,
+  getHowManyWrongAnswerQuestionById,
 };

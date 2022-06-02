@@ -7,8 +7,8 @@ const {
   getAllQuestionById,
   deleteQuestionByIdFromExam,
   getAllUserHasBeenSeenExam,
-  incrementCorrectAnswerCount,
-  incrementWrongAnswerCount,
+
+  getHowManySeenExamById,
 } = require('../../../models/exam/exam.access');
 
 async function createExamController(request, response) {
@@ -76,13 +76,8 @@ async function deleteQuestionByIdFromExamController(request, response) {
   return response.status(200).json(result);
 }
 
-async function incrementCorrectAnswerCountController(request, response) {
-  const result = await incrementCorrectAnswerCount(request.body.examId);
-  return response.status(200).json(result);
-}
-
-async function incrementWrongAnswerCountController(request, response) {
-  const result = await incrementWrongAnswerCount(request.body.examId);
+async function getHowManyHasBeenSeenController(request, response) {
+  const result = await getHowManySeenExamById(request.params.examId);
   return response.status(200).json(result);
 }
 module.exports = {
@@ -94,6 +89,6 @@ module.exports = {
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
   getAllUserHasBeenSeenController,
-  incrementCorrectAnswerCountController,
-  incrementWrongAnswerCountController,
+
+  getHowManyHasBeenSeenController,
 };

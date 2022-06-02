@@ -4,6 +4,9 @@ const {
   getAllQuestion,
   updateQuestionById,
   getQuestionById,
+  checkUserAnswer,
+  getHowManyCorrectAnswerQuestionById,
+  getHowManyWrongAnswerQuestionById,
 } = require('../../../models/question/question.access');
 
 async function createQuestionContoller(request, response) {
@@ -47,9 +50,7 @@ async function getAllQuestionController(request, response) {
   if (result.error != null) {
     return response.status(404).json({ error: result.error });
   } else {
-    return response
-      .status(200)
-      .json({ result, message: 'Bütün sorular başarıyla sorgulandı.' });
+    return response.status(200).json(result);
   }
 }
 
@@ -86,10 +87,37 @@ function errorChecker(result, response) {
   }
 }
 
+async function checkUserAnswerController(request, response) {
+  const { questionId, choosenIndex } = request.body;
+  const result = await checkUserAnswer(questionId, choosenIndex);
+
+  return response.status(200).json(result);
+}
+
+async function getHowManyWrongAnswerQuestionByIdController(request, response) {
+  const result = await getHowManyWrongAnswerQuestionById(
+    request.params.questionId
+  );
+  return response.status(200).json(result);
+}
+
+async function getHowManyCorrectAnswerQuestionByIdController(
+  request,
+  response
+) {
+  const result = await getHowManyCorrectAnswerQuestionById(
+    request.params.questionId
+  );
+  return response.status(200).json(result);
+}
+
 module.exports = {
   createQuestionContoller,
   deleteQuestionController,
   getAllQuestionController,
   updateQuestionByIdController,
   getQuestionByIdController,
+  checkUserAnswerController,
+  getHowManyWrongAnswerQuestionByIdController,
+  getHowManyCorrectAnswerQuestionByIdController,
 };

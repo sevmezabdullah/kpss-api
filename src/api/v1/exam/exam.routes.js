@@ -9,25 +9,26 @@ const {
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
   getAllUserHasBeenSeenController,
-  incrementCorrectAnswerCountController,
-  incrementWrongAnswerCountController,
 } = require('./exam.controller');
 
+//! ====== Working =====
 examRouter.get('/getAllExam', getAllExamController);
+//! ====== Working =====
 examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
+//! ====== Working =====
 examRouter.get('/getExamById/:id', getExamByIdController);
+//! ====== Working =====
 examRouter.get('/getAllUsersHasBeenSeen', getAllUserHasBeenSeenController);
 
+//! ====== Working =====
 examRouter.post('/createExam', createExamController);
+
+//! ====== Working =====
 examRouter.post('/addQuestionById', addQuestionByIdToExamController);
-examRouter.post(
-  '/incrementCorrectCount',
-  incrementCorrectAnswerCountController
-);
 
-examRouter.post('/incrementWrongCount', incrementWrongAnswerCountController);
-
+//! ====== Working =====
 examRouter.delete('/deleteExamById/:id', deleteExamByIdController);
+//! ====== Working =====
 examRouter.delete(
   '/deleteQuestionFromExam',
   deleteQuestionByIdFromExamController

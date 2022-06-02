@@ -21,6 +21,18 @@ const questionSchema = mongoose.Schema({
     required: true,
   },
 
+  //+ Soruda verilen toplam doğru cevap sayısıdır.
+  correctCount: {
+    type: Number,
+    default: 0,
+  },
+
+  //+ Soruda verilen toplan yanlış cevap sayıdır.
+  wrongCount: {
+    type: Number,
+    default: 0,
+  },
+
   //+ Sorunun toplam görüntülenme sayısı
   seenCount: {
     type: Number,

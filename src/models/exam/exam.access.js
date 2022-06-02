@@ -74,36 +74,9 @@ async function getAllUserHasBeenSeenExam(examId) {
 async function updateExamById(ExamId, newExam) {}
 
 //+ Id bilgisine göre exam görüntülenme sayısını veren metot
-async function getHowManySeenExamById(ExamId) {}
-
-//+ Id bilgisine göre exam toplam doğru cevaplanma sayısını veren metot
-async function getHowManyCorrectAnswerExamById(ExamId) {}
-
-//+ Id bilgisine göre exam toplam yanlış cevaplanma sayısını veren metot
-async function getHowManyWrongAnswerExamById(ExamId) {}
-
-//+ Id bilgisine göre exam soruların toplam doğru cevaplanma sayısını artıran metot
-async function incrementCorrectAnswerCount(examId) {
-  const incrementedExam = await Exam.findByIdAndUpdate(
-    examId,
-    {
-      $inc: { correctCount: 1 },
-    },
-    { new: true }
-  ).select('correctCount');
-  return incrementedExam;
-}
-
-//+ Id bilgisine göre exam soruların toplam yanlış cevaplanma sayısını artıran metot
-async function incrementWrongAnswerCount(examId) {
-  const incrementedExam = await Exam.findByIdAndUpdate(
-    examId,
-    {
-      $inc: { wrongCount: 1 },
-    },
-    { new: true }
-  ).select('wrongCount');
-  return incrementedExam;
+async function getHowManySeenExamById(examId) {
+  const result = await Exam.findById(examId).select('seenCount');
+  return result;
 }
 
 module.exports = {
@@ -116,9 +89,6 @@ module.exports = {
   getAllUserHasBeenSeenExam,
   deleteExamById,
   getHowManySeenExamById,
-  getHowManyCorrectAnswerExamById,
-  getHowManyWrongAnswerExamById,
-  incrementCorrectAnswerCount,
-  incrementWrongAnswerCount,
+
   getAllExam,
 };
