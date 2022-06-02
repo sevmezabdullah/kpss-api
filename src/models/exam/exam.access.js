@@ -64,10 +64,7 @@ async function deleteQuestionByIdFromExam(examId, questionId) {
 async function getAllUserHasBeenSeenExam(examId) {
   const allUsersHasBeenSeen = await Exam.findById(examId)
     .select('userIds')
-    .populate({
-      path: 'userIds',
-      model: 'User',
-    })
+    .populate('userIds')
     .exec();
 
   return allUsersHasBeenSeen;
@@ -86,30 +83,28 @@ async function getHowManyCorrectAnswerExamById(ExamId) {}
 async function getHowManyWrongAnswerExamById(ExamId) {}
 
 //+ Id bilgisine göre exam soruların toplam doğru cevaplanma sayısını artıran metot
-async function incrementCorrectAnswerCount(ExamId) {}
+async function incrementCorrectAnswerCount(examId) {
+  const incrementedExam = await Exam.findByIdAndUpdate(
+    examId,
+    {
+      $inc: { correctCount: 1 },
+    },
+    { new: true }
+  ).select('correctCount');
+  return incrementedExam;
+}
 
 //+ Id bilgisine göre exam soruların toplam yanlış cevaplanma sayısını artıran metot
-async function incrementWrongAnswerCount(ExamId) {}
-
-//+ Id bilgisine göre exam görüntülenme sayısını artıran metot
-
-//+ Id bilgisine göre gönderilen Exam bilgilerini güncelleyen metot
-async function updateExamById(ExamId, newExam) {}
-
-//+ Id bilgisine göre Examin görüntülenme sayısını veren metot
-async function getHowManySeenExamById(ExamId) {}
-
-//+ Id bilgisine göre Examin toplam doğru cevaplanma sayısını veren metot
-async function getHowManyCorrectAnswerExamById(ExamId) {}
-
-//+ Id bilgisine göre Examin toplam yanlış cevaplanma sayısını veren metot
-async function getHowManyWrongAnswerExamById(ExamId) {}
-
-//+ Id bilgisine göre Examteki soruların toplam doğru cevaplanma sayısını artıran metot
-async function incrementCorrectAnswerCount(ExamId) {}
-
-//+ Id bilgisine göre Examteki soruların toplam yanlış cevaplanma sayısını artıran metot
-async function incrementWrongAnswerCount(ExamId) {}
+async function incrementWrongAnswerCount(examId) {
+  const incrementedExam = await Exam.findByIdAndUpdate(
+    examId,
+    {
+      $inc: { wrongCount: 1 },
+    },
+    { new: true }
+  ).select('wrongCount');
+  return incrementedExam;
+}
 
 module.exports = {
   createExam,
