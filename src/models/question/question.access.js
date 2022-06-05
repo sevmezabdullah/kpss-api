@@ -20,18 +20,6 @@ async function getAllQuestion() {
   return result;
 }
 
-async function checkUserAnswer(questionId, choosenIndex) {
-  const question = await Question.findById(questionId);
-  if (question.correctAnswerIndex === choosenIndex) {
-    await Question.findByIdAndUpdate(questionId, { $inc: { correctCount: 1 } });
-    return { isUserAnswer: true };
-  } else {
-    await Question.findByIdAndUpdate(questionId, { $inc: { wrongCount: 1 } });
-    return { isUserAnswer: false };
-  }
-
-  //  return question;
-}
 //+ veritabanındaki soruyu güncelleyen metot
 async function updateQuestionById(id, newQuestionParams) {
   try {
@@ -76,7 +64,7 @@ module.exports = {
   deleteQuestionById,
   updateQuestionById,
   getQuestionById,
-  checkUserAnswer,
+
   getHowManyCorrectAnswerQuestionById,
   getHowManyWrongAnswerQuestionById,
 };

@@ -18,13 +18,24 @@ async function loginUser(email, password) {}
 async function changePassword(userId, newPassword) {}
 
 //+ Email bilgisiyle kullanıcının sistemde kayıtlı olup olmadığını doğrulayan metottur.{Şifremi unuttum sayfası için}
-async function verifyUserByEmail(email) {}
+async function verifyUserByUserId(userId) {
+  const verifiedUser = await User.findByIdAndUpdate(
+    userId,
+    { isVerify: true },
+    { new: true }
+  );
+  return verifiedUser;
+}
 
 //+ Kayıtlı tüm kullanıcıları getiren metottur.
 async function getAllUser() {}
 
 //+ Id bilgisine göre kullanıcının silindiği metottur.{Admin}
-async function deleteUserById(userId) {}
+async function deleteUserById(userId) {
+  const deletedUser = await User.findByIdAndDelete(userId);
+
+  return deletedUser;
+}
 
 //+ Id bilgisine göre kullanıcının rolünün güncellendiği metottur.{Admin}
 async function updateUserRoleById(userId, newRole) {}
@@ -46,7 +57,7 @@ module.exports = {
   loginUser,
   registerUser,
   changePassword,
-  verifyUserByEmail,
+  verifyUserByUserId,
   changeProfilePic,
 
   getAllUser,

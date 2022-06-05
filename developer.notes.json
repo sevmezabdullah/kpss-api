@@ -1,0 +1,74 @@
+{
+  "Project Name": "KPSS-API",
+  "Version": "0.0.2-beta-rc",
+  "Release Date": "20.06.2022",
+  "completed-actions": [
+    {
+      "questions": [
+        {
+          "GET": [
+            { "/getAllQuestion": "Bütün soruların görüntülenmesi" },
+            {
+              "/getQuestionById/:id": "Id bilgisine göre sorunun görüntülenmesi"
+            },
+            {
+              "/getHowManyWrongCount/:questionId": "Id bilgisine göre soruya verilen toplam yanlış cevap sayısı"
+            },
+            {
+              "/getHowManyCorrectCount/:questionId": "Id bilgisine göre soruya verilen toplam doğru cevap sayısı"
+            }
+          ],
+          "POST": [{ "/createQuestion": "Soru oluşturulması" }],
+          "PUT": [
+            { "/updateQuestion/:id": "Id bilgisine göre sorunun güncellenmesi" }
+          ],
+          "DELETE": [
+            { "/deleteById": "Id bilgisine göre sorunun silinmesi" },
+            {}
+          ]
+        }
+      ],
+      "exam": [
+        {
+          "GET": [
+            { "/getAllExam": "Bütün sınavların görüntülenmesi" },
+            {
+              "/getAllQuestionByExamId": "Id bilgisine göre sınavdaki tüm soruların görüntülenmesi"
+            },
+            {
+              "/getExamById/:id": "Id bilgisine göre sınav bilgilerinin görüntülenmesi"
+            },
+            {
+              "/getAllUsersHasBeenSeen": "Id bilgisine göre sınavı görüntüleyen kullanıcıların görüntülenmesi"
+            }
+          ],
+          "POST": [
+            { "/createExam": "Sınavın oluşturulması" },
+            {
+              "/addQuestionById": "Id bilgisi verilen sorunun sınava eklenmesi"
+            }
+          ],
+          "DELETE": [
+            { "/deleteExamById/:id": "Id bilgisine göre sınavın silinmesi" },
+            {
+              "/deleteQuestionFromExam": "Id bilgisi verilen sorunun sınavdan silinmesi"
+            }
+          ],
+          "PUT": [
+            {
+              "/updateExam/:examId": "Id bilgisine göre sınav bilgilerinin güncellenmesini sağlar"
+            }
+          ]
+        }
+      ],
+      "users": [],
+
+      "utills": []
+    }
+  ],
+  "uncompleted-actions": [
+    { "questions": [], "users": [], "exam": [], "utills": [] }
+  ],
+
+  "developer-notes": []
+}

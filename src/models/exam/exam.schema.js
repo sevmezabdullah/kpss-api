@@ -11,6 +11,10 @@ const examSchema = mongoose.Schema({
   //+ Testin içereceği soruların id lerinin liste tipinde tutulduğu property dir.
   questionList: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Question' }],
 
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
   //+ Teste katılan kullanıcların id lerinin liste tipinde tutulduğu property dir.
   userIds: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
 

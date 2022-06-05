@@ -4,7 +4,7 @@ const {
   getAllQuestion,
   updateQuestionById,
   getQuestionById,
-  checkUserAnswer,
+
   getHowManyCorrectAnswerQuestionById,
   getHowManyWrongAnswerQuestionById,
 } = require('../../../models/question/question.access');
@@ -87,13 +87,6 @@ function errorChecker(result, response) {
   }
 }
 
-async function checkUserAnswerController(request, response) {
-  const { questionId, choosenIndex } = request.body;
-  const result = await checkUserAnswer(questionId, choosenIndex);
-
-  return response.status(200).json(result);
-}
-
 async function getHowManyWrongAnswerQuestionByIdController(request, response) {
   const result = await getHowManyWrongAnswerQuestionById(
     request.params.questionId
@@ -117,7 +110,7 @@ module.exports = {
   getAllQuestionController,
   updateQuestionByIdController,
   getQuestionByIdController,
-  checkUserAnswerController,
+
   getHowManyWrongAnswerQuestionByIdController,
   getHowManyCorrectAnswerQuestionByIdController,
 };

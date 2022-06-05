@@ -7,6 +7,7 @@ const {
   getAllQuestionById,
   deleteQuestionByIdFromExam,
   getAllUserHasBeenSeenExam,
+  updateExamById,
 
   getHowManySeenExamById,
 } = require('../../../models/exam/exam.access');
@@ -80,6 +81,14 @@ async function getHowManyHasBeenSeenController(request, response) {
   const result = await getHowManySeenExamById(request.params.examId);
   return response.status(200).json(result);
 }
+
+async function updateExamController(request, response) {
+  const examId = request.params.examId;
+
+  const updatedExam = await updateExamById(examId, request.body);
+
+  return response.status(200).json({ message: updatedExam });
+}
 module.exports = {
   createExamController,
   getExamByIdController,
@@ -89,6 +98,6 @@ module.exports = {
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
   getAllUserHasBeenSeenController,
-
+  updateExamController,
   getHowManyHasBeenSeenController,
 };

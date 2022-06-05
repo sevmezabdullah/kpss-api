@@ -15,7 +15,7 @@ async function createExam(exam) {
     }
   }
 }
-//+ Id bilgisine göre exam getiren metot
+//+ Id bilgisine göre exam getiren metot - sınavı görüntüleyince çalışacak metot
 async function getExamById(examId, userId) {
   const exam = await Exam.findByIdAndUpdate(examId, {
     $inc: { seenCount: 1 },
@@ -43,7 +43,7 @@ async function getAllExam() {
   return exams;
 }
 
-//+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot
+//+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot - sınava başlarken çalışacak metot
 async function getAllQuestionById(examId) {
   const questionsInExam = await Exam.findOne({ _id: examId })
     .select('questionList')
@@ -59,7 +59,7 @@ async function deleteQuestionByIdFromExam(examId, questionId) {
   });
   return result;
 }
-//@TODO hata giderilecek
+
 //+ Id bilgisine göre exam görüntüleyen kullanıcıların listesini gönderen metot
 async function getAllUserHasBeenSeenExam(examId) {
   const allUsersHasBeenSeen = await Exam.findById(examId)
@@ -71,7 +71,14 @@ async function getAllUserHasBeenSeenExam(examId) {
 }
 
 //+ Id bilgisine göre gönderilen exam bilgilerini güncelleyen metot
-async function updateExamById(ExamId, newExam) {}
+async function updateExamById(examId, newExam) {
+  const updatedExam = await Exam.findByIdAndUpdate(
+    examId,
+    { $set: newExam },
+    { new: true }
+  );
+  return updatedExam;
+}
 
 //+ Id bilgisine göre exam görüntülenme sayısını veren metot
 async function getHowManySeenExamById(examId) {

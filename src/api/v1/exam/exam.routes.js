@@ -9,6 +9,7 @@ const {
   getAllQuestionInExamController,
   deleteQuestionByIdFromExamController,
   getAllUserHasBeenSeenController,
+  updateExamController,
 } = require('./exam.controller');
 
 //! ====== Working =====
@@ -25,6 +26,8 @@ examRouter.post('/createExam', createExamController);
 
 //! ====== Working =====
 examRouter.post('/addQuestionById', addQuestionByIdToExamController);
+
+examRouter.put('/updateExam/:examId', updateExamController);
 
 //! ====== Working =====
 examRouter.delete('/deleteExamById/:id', deleteExamByIdController);

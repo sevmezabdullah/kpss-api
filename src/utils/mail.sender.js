@@ -1,50 +1,61 @@
 const nodemailer = require('nodemailer');
-const config = require('../config/config');
-const SMTP_SERVER = config.SMTP_SERVER;
-const SMTP_EMAIL = config.SMTP_EMAIL;
-const SMTP_PASSWORD = config.SMTP_PASSWORD;
-const SMTP_PORT = config.SMTP_PORT;
-const SMTP_HOST = config.SMTP_HOST;
+const { google } = require('googleapis');
 
-let user = '';
+const config = require('../config/config');
+
+const CLIENT_ID = config.CLIENT_ID;
+const CLIENT_SECRET = config.CLIENT_SECRET;
+const REDIRECT_URL = config.REDIRECT_URL;
+const REFRESH_TOKEN = config.REFRESH_TOKEN;
+
+const oAuth2Client = new google.auth.OAuth2(
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URL
+);
+oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
 async function configurationTranstporter() {
-  const configrationParameters = {
-    service: SMTP_SERVER,
-    host: SMTP_HOST,
-    port: SMTP_PORT,
-    secure: false,
-    user: SMTP_EMAIL,
-    pass: SMTP_PASSWORD,
-  };
-
-  const testAccount = await nodemailer.createTestAccount();
-
-  console.log(testAccount);
-  let transporter = nodemailer.createTransport({
-    host: configrationParameters.host,
-    port: configrationParameters.port,
-    secure: configrationParameters.secure, // true for 465, false for other ports
-    auth: {
-      user: configrationParameters.user, // generated ethereal user
-      pass: configrationParameters.pass, // generated ethereal password
-    },
-  });
-  user = testAccount.user;
-  let mail = transporter.sendMail({
-    from: 'abdullahsevmez@gmail.com',
-    to: `abdullahsevmez@gmail.com`,
-    subject: `konu`,
-    html: `<h1></h1>`,
-  });
-  mail.then((info) => {
-    console.log(info);
-  });
-  return transporter;
+  try {
+    const accessToken = await oAuth2Client.getAccessToken();
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        type: 'OAuth2',
+        user: 'abdullahsevmez@gmail.com',
+        clientId: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        refreshToken: REFRESH_TOKEN,
+        accessToken: accessToken,
+      },
+    });
+    return transporter;
+  } catch (error) {
+    if (error) {
+      console.log(error);
+    }
+  }
 }
 
 async function sendEmail(email, to, subject, html) {
   const transporter = configurationTranstporter();
+
+  let isSent = false;
+
+  let mailOptions = {
+    from: `<${email}>`,
+    to: `${to}`,
+    subject: `${subject}`,
+    html: `<h1>Merhaba</h1>`,
+  };
+
+  (await transporter).sendMail(mailOptions, (err, result) => {
+    if (err) {
+      isSent = false;
+    } else {
+      isSent = true;
+    }
+  });
 }
 
 module.exports = { sendEmail };

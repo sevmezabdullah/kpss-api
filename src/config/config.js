@@ -11,18 +11,16 @@ const PORT = process.env.PORT;
 //+ Projenin bağlanacağı veritabanı adresi
 const DB_ADRESS = process.env.DB_ADRESS;
 
-const SMTP_SERVER = process.env.SMTP_SERVER;
-const SMTP_HOST = process.env.SMTP_HOST;
-const SMTP_EMAIL = process.env.SMTP_EMAIL;
-const SMTP_PASSWORD = process.env.SMTP_PASSWORD;
-const SMTP_PORT = process.env.SMTP_PORT;
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
+const REDIRECT_URL = process.env.REDIRECT_URL;
+const REFRESH_TOKEN = process.env.REFRESH_TOKEN;
 
 module.exports = {
   PORT: PORT,
   DB_ADRESS: DB_ADRESS,
-  SMTP_SERVER: SMTP_SERVER,
-  SMTP_PASSWORD: SMTP_PASSWORD,
-  SMTP_PORT: SMTP_PORT,
-  SMTP_HOST: SMTP_HOST,
-  SMTP_EMAIL: SMTP_EMAIL,
+  CLIENT_ID: CLIENT_ID,
+  CLIENT_SECRET: CLIENT_SECRET,
+  REDIRECT_URL: REDIRECT_URL,
+  REFRESH_TOKEN: REFRESH_TOKEN,
 };

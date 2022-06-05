@@ -18,7 +18,15 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
 
+  isVerify: {
+    type: Boolean,
+    default: false,
+  },
   //+ Kullanıcının şifresini tuttuğum property. Sorgularda gizlemek için select:false kullanıldı.
   password: {},
 
