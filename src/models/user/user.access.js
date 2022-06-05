@@ -1,7 +1,16 @@
 //+ UserSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
+const bcrypt = require('bcrypt');
+const User = require('./user.schema');
 
 //+ Kullanıcı kaydı için kullanılacak metottur.
-async function registerUser(user) {}
+async function registerUser(user) {
+  const hashedPassword = await bcrypt.hash(`${user.password}`, 10, null);
+  user.password = hashedPassword;
+  const userDB = new User(user);
+  const registeredUser = await userDB.save();
+
+  return registeredUser;
+}
 //+ Kullanıcının email ve password ile projeye giriş yaptığı metottur.
 async function loginUser(email, password) {}
 

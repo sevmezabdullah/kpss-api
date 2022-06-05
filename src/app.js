@@ -1,15 +1,15 @@
 const express = require('express');
+const passport = require('passport');
+
 const app = express();
 //+ Ayarları okuyabilmek için config.js dosyasını import ediyoruz
 const config = require('./config/config');
 //+ Routing işlemlerini daha rahat yapabilmek amacıyla api.js dosyası import edilir.
 const api = require('./api/api');
 
-const errorHandler = require('./middlewares/error_handler');
-
 //+ eskiden request body sinde gelen json dosyalarını decode etmek için farklı paketlere ihtiyaç duyulur. Ancak express e gelen güncellemelerle alttaki kod ile gelen requestlerin bodylerini json olarak direk alabiliyoruz.
 app.use(express.json());
-app.use(errorHandler);
+
 //+ routing yapmak için app.use middleware metoduna apiyi parametre olarak geçiyoruz.
 app.use('/api', api);
 //! Params : []
