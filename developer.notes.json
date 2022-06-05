@@ -70,5 +70,14 @@
     { "questions": [], "users": [], "exam": [], "utills": [] }
   ],
 
-  "developer-notes": []
+  "developer-notes": [
+    "PassportJS ile kullanıcı authentication ve authorization süreci eklenecek",
+    "Morgan ile loglama işlemleri",
+    "Socket.İO ile gerçek zamanlı işlemler",
+    "Helmet ile güvenlik işlemleri",
+    "i18n ile localization işlemleri",
+    "Docker ve AWS ile deployment işlemleri",
+    "UI tarafına servis edilecek verilerin düzenlenmesi genel kontroller",
+    "Testlerin tamamlanması"
+  ]
 }
