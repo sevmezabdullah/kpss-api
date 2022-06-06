@@ -4,7 +4,6 @@ const {
   getAllQuestion,
   updateQuestionById,
   getQuestionById,
-
   getHowManyCorrectAnswerQuestionById,
   getHowManyWrongAnswerQuestionById,
 } = require('../../../models/question/question.access');

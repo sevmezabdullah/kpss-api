@@ -28,8 +28,15 @@ async function verifyUserByUserId(userId) {
 }
 
 //+ Kayıtlı tüm kullanıcıları getiren metottur.
-async function getAllUser() {}
+async function getAllUser() {
+  const result = await User.find({});
+  return result;
+}
 
+async function getUserById(userId) {
+  const result = await User.findById(userId);
+  return result;
+}
 //+ Id bilgisine göre kullanıcının silindiği metottur.{Admin}
 async function deleteUserById(userId) {
   const deletedUser = await User.findByIdAndDelete(userId);
@@ -59,7 +66,7 @@ module.exports = {
   changePassword,
   verifyUserByUserId,
   changeProfilePic,
-
+  getUserById,
   getAllUser,
   deleteUserById,
   updateUserRoleById,

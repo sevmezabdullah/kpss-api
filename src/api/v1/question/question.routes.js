@@ -13,7 +13,11 @@ const {
 
 questionRouter.post('/createQuestion', createQuestionContoller);
 
-questionRouter.get('/getAllQuestion', getAllQuestionController);
+questionRouter.get(
+  '/getAllQuestion',
+
+  getAllQuestionController
+);
 questionRouter.delete('/deleteById/:id', deleteQuestionController);
 questionRouter.put('/updateQuestion/:id', updateQuestionByIdController);
 questionRouter.get('/getQuestionById/:id', getQuestionByIdController);
