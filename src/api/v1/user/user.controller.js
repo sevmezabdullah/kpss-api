@@ -6,6 +6,7 @@ const {
   getUserById,
   addUnCompletedExamToUser,
   addCompletedTestToUser,
+  updateUserRoleById,
 } = require('../../../models/user/user.access');
 
 const { sendEmail } = require('../../../utils/mail.sender');
@@ -81,8 +82,20 @@ async function addUnCompletedExamToUserController(request, response) {
 async function addCompletedExamToUserController(request, response) {
   const examResult = request.body.examResult;
   const result = await addCompletedTestToUser(examResult.userId, examResult);
-  console.log(examResult.userId);
+  if (result != null) {
+    return response
+      .status(201)
+      .json({ message: 'Sınav başarıyla tamamlandı.' });
+  }
   return response.status(200).json(result);
+}
+
+async function updateUserRoleByIdController(request, response) {
+  const role = request.body.role;
+  const updatedUserRole = await updateUserRoleById(request.body.userId, role);
+  return response.status(200).json({
+    message: `${updateUserRoleById.name} isimli kullanıcının yetkisi değiştirildi. `,
+  });
 }
 module.exports = {
   userRegisterController,
@@ -92,4 +105,5 @@ module.exports = {
   getUserByIdController,
   addUnCompletedExamToUserController,
   addCompletedExamToUserController,
+  updateUserRoleByIdController,
 };

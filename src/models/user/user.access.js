@@ -44,16 +44,26 @@ async function deleteUserById(userId) {
 }
 
 //+ Id bilgisine göre kullanıcının rolünün güncellendiği metottur.{Admin}
-async function updateUserRoleById(userId, newRole) {}
+async function updateUserRoleById(userId, newRole) {
+  const roleUpdatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      $set: { role: newRole },
+    },
+    { new: true }
+  ).select('name surname');
+
+  return roleUpdatedUser;
+}
 
 //+ Tamamlanan testin kullancıya sonuçlarıyla beraber eklendiği metotdur.
 //!{testId:{correctCount:15,wrongCount:15}}
 async function addCompletedTestToUser(userId, result) {
-  console.log(result);
   result.createdAt = Date.now();
   const dbResult = await User.findByIdAndUpdate(userId, {
     $push: { completedExamResults: result },
   });
+
   return dbResult;
 }
 

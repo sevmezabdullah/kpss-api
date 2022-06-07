@@ -10,6 +10,7 @@ const {
   getUserByIdController,
   addUnCompletedExamToUserController,
   addCompletedExamToUserController,
+  updateUserRoleByIdController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
@@ -22,5 +23,6 @@ userRouter.get('/userById/:userId', getUserByIdController);
 userRouter.delete('/deleteUser', deleteUserByIdController);
 
 userRouter.put('/verfiyUser/:userId', verifyUserByIdController);
+userRouter.put('/changeRole', updateUserRoleByIdController);
 
 module.exports = userRouter;

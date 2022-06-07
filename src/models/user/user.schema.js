@@ -32,7 +32,7 @@ const userSchema = mongoose.Schema({
 
   //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25,{question.category.correct:10,question.category.wrong:25}}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
 
-  completedExamResults: [{ type: mongoose.Schema.Types.Mixed }],
+  completedExamResults: [{ type: mongoose.Schema.Types.Mixed, unique: true }],
 
   //+ Kullanıcının katıldığı ancak tamamlamadığı testlerin id lerinin liste olarak tutulduğu property
   unCompletedExams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
