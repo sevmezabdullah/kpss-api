@@ -8,9 +8,13 @@ const {
   deleteUserByIdController,
   getAllUserController,
   getUserByIdController,
+  addUnCompletedExamToUserController,
+  addCompletedExamToUserController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
+userRouter.post('/addUnCompletedExam', addUnCompletedExamToUserController);
+userRouter.post('/addCompletedExam', addCompletedExamToUserController);
 
 userRouter.get('/allUser', getAllUserController);
 userRouter.get('/userById/:userId', getUserByIdController);

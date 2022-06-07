@@ -34,14 +34,13 @@ async function getAllUser() {
 }
 
 async function getUserById(userId) {
-  const result = await User.findById(userId);
-  return result;
+  const dbResult = await User.findById(userId);
+  return dbResult;
 }
 //+ Id bilgisine göre kullanıcının silindiği metottur.{Admin}
 async function deleteUserById(userId) {
-  const deletedUser = await User.findByIdAndDelete(userId);
-
-  return deletedUser;
+  const dbResult = await User.findByIdAndDelete(userId);
+  return dbResult;
 }
 
 //+ Id bilgisine göre kullanıcının rolünün güncellendiği metottur.{Admin}
@@ -49,10 +48,22 @@ async function updateUserRoleById(userId, newRole) {}
 
 //+ Tamamlanan testin kullancıya sonuçlarıyla beraber eklendiği metotdur.
 //!{testId:{correctCount:15,wrongCount:15}}
-async function addCompletedTestToUser(userId, result) {}
+async function addCompletedTestToUser(userId, result) {
+  console.log(result);
+  result.createdAt = Date.now();
+  const dbResult = await User.findByIdAndUpdate(userId, {
+    $push: { completedExamResults: result },
+  });
+  return dbResult;
+}
 
 //+ Id bilgisine göre kullanıcının tamamlayamadığı test kullanıcıya ekleyen metottur.
-async function addUnCompletedTestToUser(userId, testId) {}
+async function addUnCompletedExamToUser(userId, examId) {
+  const dbResult = await User.findByIdAndUpdate(userId, {
+    $push: { unCompletedExams: examId },
+  });
+  return dbResult;
+}
 
 //+ Id bilgisine ve kullanıcının test sonucuna göre puanını artıran metotdur.
 async function incrementRankUserById(userId) {}
@@ -72,6 +83,6 @@ module.exports = {
   updateUserRoleById,
 
   addCompletedTestToUser,
-  addUnCompletedTestToUser,
+  addUnCompletedExamToUser,
   incrementRankUserById,
 };

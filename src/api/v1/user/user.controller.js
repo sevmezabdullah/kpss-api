@@ -4,6 +4,8 @@ const {
   deleteUserById,
   getAllUser,
   getUserById,
+  addUnCompletedExamToUser,
+  addCompletedTestToUser,
 } = require('../../../models/user/user.access');
 
 const { sendEmail } = require('../../../utils/mail.sender');
@@ -67,10 +69,27 @@ async function deleteUserByIdController(request, response) {
   }
 }
 
+async function addUnCompletedExamToUserController(request, response) {
+  const result = await addUnCompletedExamToUser(
+    request.body.userId,
+    request.body.examId
+  );
+
+  return response.status(200).json(result);
+}
+
+async function addCompletedExamToUserController(request, response) {
+  const examResult = request.body.examResult;
+  const result = await addCompletedTestToUser(examResult.userId, examResult);
+  console.log(examResult.userId);
+  return response.status(200).json(result);
+}
 module.exports = {
   userRegisterController,
   verifyUserByIdController,
   deleteUserByIdController,
   getAllUserController,
   getUserByIdController,
+  addUnCompletedExamToUserController,
+  addCompletedExamToUserController,
 };
