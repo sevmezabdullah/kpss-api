@@ -1,5 +1,7 @@
 const nodemailer = require('nodemailer');
+const path = require('path');
 const { google } = require('googleapis');
+const hbs = require('nodemailer-express-handlebars');
 
 const config = require('../config/config');
 
@@ -15,6 +17,7 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 
+const handlebarOptions = {};
 async function configurationTranstporter() {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
@@ -29,6 +32,19 @@ async function configurationTranstporter() {
         accessToken: accessToken,
       },
     });
+
+    transporter.use(
+      'compile',
+      hbs({
+        viewEngine: {
+          extName: '.handlebars',
+          partialsDir: path.resolve('./views'),
+          defaultLayout: false,
+        },
+        viewPath: path.resolve('./views'),
+        extName: '.handlebars',
+      })
+    );
     return transporter;
   } catch (error) {
     if (error) {
@@ -39,17 +55,18 @@ async function configurationTranstporter() {
 
 async function sendEmail(email, to, subject, html) {
   const transporter = configurationTranstporter();
-
+  console.log(transporter);
   let isSent = false;
 
   let mailOptions = {
     from: `<${email}>`,
     to: `${to}`,
     subject: `${subject}`,
-    html: `<h1>Merhaba</h1>`,
+    template: 'email',
   };
 
   (await transporter).sendMail(mailOptions, (err, result) => {
+    console.log(result);
     if (err) {
       isSent = false;
     } else {

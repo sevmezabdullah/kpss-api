@@ -17,6 +17,8 @@ const {
   verifiedEmailAdress,
   deletedUserMessage,
   notFoundedUserMessage,
+  unCompletedExamError,
+  completedExamMessage,
 } = require('./res/response.messages');
 
 async function userRegisterController(request, response) {
@@ -38,27 +40,38 @@ async function userRegisterController(request, response) {
   }
 }
 
+//! Completed
 async function getAllUserController(request, response) {
   const result = await getAllUser();
-
-  return response.status(200).json(result);
+  if (result != null) {
+    return response.status(200).json(result);
+  } else {
+    return response.status(404).json({ message: notFoundedUserMessage });
+  }
 }
 
+//! Completed
 async function getUserByIdController(request, response) {
   const result = await getUserById(request.params.userId);
-  return response.status(200).json(result);
+  if (result != null) {
+    return response.status(200).json(result);
+  } else {
+    return response.status(404).json({ message: notFoundedUserMessage });
+  }
 }
 
+//! Completed
 async function verifyUserByIdController(request, response) {
   const verifiedUser = await verifyUserByUserId(request.params.userId);
 
   if (verifiedUser != null) {
     return response.status(200).json({ message: `${verifiedEmailAdress}` });
   } else {
-    return response.status(200).json({ message: `${notFoundedUserMessage}` });
+    return response.status(404).json({ message: `${notFoundedUserMessage}` });
   }
 }
 
+//! Completed
 async function deleteUserByIdController(request, response) {
   const deletedUser = await deleteUserById(request.body.userId);
   if (deletedUser != null) {
@@ -76,27 +89,35 @@ async function addUnCompletedExamToUserController(request, response) {
     request.body.examId
   );
 
-  return response.status(200).json(result);
+  if (result != null) {
+    return response.status(200).json(result);
+  } else {
+    return response.status(404).json({ message: unCompletedExamError });
+  }
 }
 
+//! Completed
 async function addCompletedExamToUserController(request, response) {
   const examResult = request.body.examResult;
   const result = await addCompletedTestToUser(examResult.userId, examResult);
-  console.log(examResult);
+
   if (result != null) {
-    return response
-      .status(201)
-      .json({ message: 'Sınav başarıyla tamamlandı.' });
+    return response.status(201).json({ message: completedExamMessage });
+  } else {
+    return response.status(404).json({ message: notFoundedUserMessage });
   }
-  return response.status(200).json(result);
 }
 
+//! Completed
 async function updateUserRoleByIdController(request, response) {
   const role = request.body.role;
-  await updateUserRoleById(request.body.userId, role);
-  return response.status(200).json({
-    message: `Kullanıcı yetkisi değiştirildi. `,
-  });
+  const result = await updateUserRoleById(request.body.userId, role);
+
+  if (result != null) {
+    return response.status(200).json({
+      message: ``,
+    });
+  }
 }
 module.exports = {
   userRegisterController,
