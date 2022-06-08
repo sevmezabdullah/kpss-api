@@ -8,7 +8,6 @@ async function registerUser(user) {
   user.password = hashedPassword;
   const userDB = new User(user);
   const registeredUser = await userDB.save();
-
   return registeredUser;
 }
 //+ Kullanıcının email ve password ile projeye giriş yaptığı metottur.
@@ -60,8 +59,10 @@ async function updateUserRoleById(userId, newRole) {
 //!{testId:{correctCount:15,wrongCount:15}}
 async function addCompletedTestToUser(userId, result) {
   result.createdAt = Date.now();
+
   const dbResult = await User.findByIdAndUpdate(userId, {
     $push: { completedExamResults: result },
+    $inc: { rank: result.result.correctCount * 10 },
   });
 
   return dbResult;
@@ -72,11 +73,9 @@ async function addUnCompletedExamToUser(userId, examId) {
   const dbResult = await User.findByIdAndUpdate(userId, {
     $push: { unCompletedExams: examId },
   });
+
   return dbResult;
 }
-
-//+ Id bilgisine ve kullanıcının test sonucuna göre puanını artıran metotdur.
-async function incrementRankUserById(userId) {}
 
 //+ Id bilgisine ve imageLink parametresine göre kullanıcının profil resmini değiştiren metottur.
 async function changeProfilePic(userId, imageLink) {}
@@ -94,5 +93,4 @@ module.exports = {
 
   addCompletedTestToUser,
   addUnCompletedExamToUser,
-  incrementRankUserById,
 };

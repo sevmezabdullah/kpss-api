@@ -82,6 +82,7 @@ async function addUnCompletedExamToUserController(request, response) {
 async function addCompletedExamToUserController(request, response) {
   const examResult = request.body.examResult;
   const result = await addCompletedTestToUser(examResult.userId, examResult);
+  console.log(examResult);
   if (result != null) {
     return response
       .status(201)
@@ -92,9 +93,9 @@ async function addCompletedExamToUserController(request, response) {
 
 async function updateUserRoleByIdController(request, response) {
   const role = request.body.role;
-  const updatedUserRole = await updateUserRoleById(request.body.userId, role);
+  await updateUserRoleById(request.body.userId, role);
   return response.status(200).json({
-    message: `${updateUserRoleById.name} isimli kullanıcının yetkisi değiştirildi. `,
+    message: `Kullanıcı yetkisi değiştirildi. `,
   });
 }
 module.exports = {

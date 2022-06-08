@@ -61,7 +61,36 @@
           ]
         }
       ],
-      "users": [],
+      "users": [
+        {
+          "GET": [
+            { "/getAllUser": "Bütün kullanıcıların listelenmesi" },
+            {
+              "/userById/:userId": "Id bilgisine göre kullanıcının görüntülenmesi"
+            }
+          ],
+          "POST": [
+            { "/register": "Kullanıcının kayıt olması" },
+            {
+              "/addUnCompletedExam": "Tamamlanmayan sınav bilgileri kullanıcıya eklendi"
+            },
+            {
+              "/addCompletedExam": "Tamamlanan sınav bilgileri kullanıcıya eklendi"
+            }
+          ],
+          "DELETE": [
+            { "/deleteUser": "Id bilgisine göre kullanıcının silinmesi" }
+          ],
+          "PUT": [
+            {
+              "/changeRole": "Kullanıcının rolünün güncellenmesi"
+            },
+            {
+              "/verifyUser/:userId": "Eposta ile kaydolan kullanıcının e-posta aktivasyonunu tamamlaması"
+            }
+          ]
+        }
+      ],
 
       "utills": []
     }
