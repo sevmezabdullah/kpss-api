@@ -1,6 +1,6 @@
 const express = require('express');
 const passport = require('passport');
-
+const exphbs = require('express-handlebars');
 const app = express();
 //+ Ayarları okuyabilmek için config.js dosyasını import ediyoruz
 const config = require('./config/config');
@@ -10,6 +10,8 @@ const api = require('./api/api');
 //+ eskiden request body sinde gelen json dosyalarını decode etmek için farklı paketlere ihtiyaç duyulur. Ancak express e gelen güncellemelerle alttaki kod ile gelen requestlerin bodylerini json olarak direk alabiliyoruz.
 app.use(express.json());
 
+app.engine('.hbs', exphbs({ extname: '.hbs' }));
+app.set('view engine', '.hbs');
 //+ routing yapmak için app.use middleware metoduna apiyi parametre olarak geçiyoruz.
 app.use('/api', api);
 //! Params : []
