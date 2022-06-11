@@ -1,10 +1,9 @@
 const nodemailer = require('nodemailer');
+const Handlebars = require('handlebars');
+const { google } = require('googleapis');
 
 const fs = require('fs');
 const path = require('path');
-const Handlebars = require('handlebars');
-
-const { google } = require('googleapis');
 
 const config = require('../config/config');
 
@@ -24,7 +23,7 @@ var source = fs.readFileSync(
   path.join(__dirname, '../views/template.handlebars'),
   'utf8'
 );
-var template = Handlebars.compile(source);
+var verificationTemplate = Handlebars.compile(source);
 async function configurationTranstporter() {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
@@ -48,26 +47,28 @@ async function configurationTranstporter() {
   }
 }
 
-async function sendEmail(email, to, subject, html) {
+async function sendActivationEmail(email, to, subject) {
   const transporter = configurationTranstporter();
-  console.log(transporter);
-  let isSent = false;
+  let mailOptions = {
+    from: `<${email}>`,
+    to: `${to}`,
+    subject: `${subject}`,
+    html: verificationTemplate(),
+  };
+
+  (await transporter).sendMail(mailOptions, (err, result) => {});
+}
+
+async function sendForgotPasswordEmail(email, to, subject) {
+  const transporter = configurationTranstporter();
 
   let mailOptions = {
     from: `<${email}>`,
     to: `${to}`,
     subject: `${subject}`,
-    html: template(),
+    html: forgotPasswordTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {
-    console.log(result);
-    if (err) {
-      isSent = false;
-    } else {
-      isSent = true;
-    }
-  });
+  (await transporter).sendMail(mailOptions, (err, result) => {});
 }
-
-module.exports = { sendEmail };
+module.exports = { sendActivationEmail, sendForgotPasswordEmail };

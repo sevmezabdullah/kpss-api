@@ -7,9 +7,10 @@ const {
   addUnCompletedExamToUser,
   addCompletedTestToUser,
   updateUserRoleById,
+  loginUser,
 } = require('../../../models/user/user.access');
 
-const { sendEmail } = require('../../../utils/mail.sender');
+const { sendActivationEmail } = require('../../../utils/mail.sender');
 const {
   createdUserMessage,
   namedUserRegisteredMessage,
@@ -25,10 +26,9 @@ async function userRegisterController(request, response) {
   const user = request.body;
   const result = await registerUser(user);
 
-  const isSentMail = sendEmail(
+  const isSentMail = sendActivationEmail(
     'abdullahsevmez@gmail.com',
-    'abdullahsevmez@gmail.com,',
-    '<h1>Başarılı</h1>'
+    'abdullahsevmez@gmail.com,'
   );
 
   if (isSentMail) {
@@ -38,6 +38,12 @@ async function userRegisterController(request, response) {
       message: registeredUserMessage,
     });
   }
+}
+
+async function userLoginController(request, response) {
+  const user = await loginUser(request.body.email, request.body.password);
+
+  return response.status(200).json(user);
 }
 
 //! Completed
@@ -121,6 +127,7 @@ async function updateUserRoleByIdController(request, response) {
 }
 module.exports = {
   userRegisterController,
+  userLoginController,
   verifyUserByIdController,
   deleteUserByIdController,
   getAllUserController,

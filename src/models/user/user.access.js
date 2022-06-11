@@ -10,8 +10,19 @@ async function registerUser(user) {
   const registeredUser = await userDB.save();
   return registeredUser;
 }
+
+async function passwordChecker(email, password) {
+  const user = await User.findOne({ email: email });
+  const compare = await bcrypt.compare(password, user.password);
+  return compare;
+}
+
 //+ Kullanıcının email ve password ile projeye giriş yaptığı metottur.
-async function loginUser(email, password) {}
+async function loginUser(email, password) {
+  const user = await User.findOne({ email: email });
+  // const compare = await bcrypt.compare(password, user.password);
+  return user;
+}
 
 //+ Kullanıcının şifresini değiştirdiği metottur.{profil sayfasındayken.}
 async function changePassword(userId, newPassword) {}
@@ -90,7 +101,7 @@ module.exports = {
   getAllUser,
   deleteUserById,
   updateUserRoleById,
-
+  passwordChecker,
   addCompletedTestToUser,
   addUnCompletedExamToUser,
 };
