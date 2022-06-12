@@ -14,12 +14,6 @@ async function deleteQuestionById(id) {
   return result;
 }
 
-//+ Bütün soruları listeleyen metot
-async function getAllQuestion() {
-  const result = await Question.find();
-  return result;
-}
-
 //+ veritabanındaki soruyu güncelleyen metot
 async function updateQuestionById(id, newQuestionParams) {
   try {
@@ -60,7 +54,7 @@ async function getHowManyWrongAnswerQuestionById(questionId) {
 
 module.exports = {
   createQuestion,
-  getAllQuestion,
+
   deleteQuestionById,
   updateQuestionById,
   getQuestionById,

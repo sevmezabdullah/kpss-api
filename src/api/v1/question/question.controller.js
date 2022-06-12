@@ -1,7 +1,6 @@
 const {
   createQuestion,
   deleteQuestionById,
-  getAllQuestion,
   updateQuestionById,
   getQuestionById,
   getHowManyCorrectAnswerQuestionById,
