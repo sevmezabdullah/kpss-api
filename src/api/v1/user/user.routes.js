@@ -2,7 +2,11 @@ const express = require('express');
 const passport = require('../../../middlewares/auth');
 const userRouter = express.Router();
 
-const CLIENT_URL = 'http://localhost:3000/api/v1/user/profile';
+const asyncHandler = require('../../../middlewares/async');
+const User = require('../../../models/user/user.schema');
+const advencedResults = require('../../../middlewares/advenced.result');
+
+const CLIENT_URL = '/api/v1/user/profile';
 
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
@@ -11,6 +15,7 @@ function isLoggedIn(req, res, next) {
 const {
   userRegisterController,
   userLoginController,
+  userProfileController,
   verifyUserByIdController,
   deleteUserByIdController,
   getAllUserController,
@@ -18,37 +23,42 @@ const {
   addUnCompletedExamToUserController,
   addCompletedExamToUserController,
   updateUserRoleByIdController,
+  loginWithGoogleMobileController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
-userRouter.post('/login', userLoginController);
+userRouter.post('/login', (request, response, next) => {
+  console.log(request.body);
+  passport.authenticate('local', {
+    successRedirect: '/profile',
+  })(request, response, next);
+});
+
+userRouter.get('/google', passport.authenticate('google'));
 
 userRouter.get(
-  '/google',
-  passport.authenticate('google', {
-    scope: ['profile', 'email'],
-    session: true,
-  })
-);
-
-userRouter.get(
-  '/google/callback',
+  '/auth/google/callback',
   passport.authenticate('google', {
     successRedirect: CLIENT_URL,
-    failureRedirect: '/login/failed',
-  })
+    failureRedirect: '/login',
+  }),
+  (request, response) => {
+    response.redirect('/');
+  }
 );
 
-userRouter.get('/profile', (request, response) => {
-  return response
-    .status(200)
-    .json({ message: 'giriş yapıldı', user: `${request.user}` });
-});
+userRouter.get('/profile', asyncHandler(userProfileController));
+
+userRouter.post('/mobile-google-login', loginWithGoogleMobileController);
 
 userRouter.post('/addUnCompletedExam', addUnCompletedExamToUserController);
 userRouter.post('/addCompletedExam', addCompletedExamToUserController);
 
-userRouter.get('/allUser', getAllUserController);
+userRouter.get(
+  '/allUser',
+  advencedResults(User, 'name'),
+  asyncHandler(getAllUserController)
+);
 userRouter.get('/userById/:userId', getUserByIdController);
 
 userRouter.delete('/deleteUser', deleteUserByIdController);

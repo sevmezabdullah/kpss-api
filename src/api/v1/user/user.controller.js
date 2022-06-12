@@ -8,7 +8,10 @@ const {
   addCompletedTestToUser,
   updateUserRoleById,
   loginUser,
+  loginWithGoogleMobile,
 } = require('../../../models/user/user.access');
+
+const ErrorResponse = require('../../../utils/error.handler');
 
 const { sendActivationEmail } = require('../../../utils/mail.sender');
 const {
@@ -46,14 +49,26 @@ async function userLoginController(request, response) {
   return response.status(200).json(user);
 }
 
+async function loginWithGoogleMobileController(request, response) {
+  const email = request.body.email;
+  const name = request.body.name;
+  const surname = request.body.surname;
+  const profilePic = request.body.profilePic;
+  const user = await loginWithGoogleMobile(email, name, surname, profilePic);
+
+  return response.status(200).json(user);
+}
+
+async function userProfileController(request, response) {
+  console.log(request.user);
+  return response
+    .status(200)
+    .json({ message: 'Kullanıcı profili', user: request.user });
+}
+
 //! Completed
-async function getAllUserController(request, response) {
-  const result = await getAllUser();
-  if (result != null) {
-    return response.status(200).json(result);
-  } else {
-    return response.status(404).json({ message: notFoundedUserMessage });
-  }
+async function getAllUserController(request, response, next) {
+  return response.status(200).json(response.advancedResults);
 }
 
 //! Completed
@@ -135,4 +150,6 @@ module.exports = {
   addUnCompletedExamToUserController,
   addCompletedExamToUserController,
   updateUserRoleByIdController,
+  userProfileController,
+  loginWithGoogleMobileController,
 };

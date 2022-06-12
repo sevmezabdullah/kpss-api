@@ -39,7 +39,7 @@ async function verifyUserByUserId(userId) {
 
 //+ Kayıtlı tüm kullanıcıları getiren metottur.
 async function getAllUser() {
-  const result = await User.find({});
+  const result = await User.find();
   return result;
 }
 
@@ -88,6 +88,27 @@ async function addUnCompletedExamToUser(userId, examId) {
   return dbResult;
 }
 
+async function loginWithGoogleMobile(email, name, surname, profilePic) {
+  const user = await User.findOne({ email: email });
+
+  if (!user) {
+    console.log('Kullanıcı bulunamadı');
+
+    const createdUser = new User({
+      email,
+      name,
+      surname,
+      profilePic,
+      isVerify: true,
+    });
+
+    const savedUser = createdUser.save();
+
+    return savedUser;
+  }
+  return user;
+}
+
 //+ Id bilgisine ve imageLink parametresine göre kullanıcının profil resmini değiştiren metottur.
 async function changeProfilePic(userId, imageLink) {}
 
@@ -104,4 +125,5 @@ module.exports = {
   passwordChecker,
   addCompletedTestToUser,
   addUnCompletedExamToUser,
+  loginWithGoogleMobile,
 };

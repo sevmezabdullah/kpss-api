@@ -1,5 +1,6 @@
 //+ UserSchema modelinin tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
+const Joi = require('joi');
 
 //+ userSchemayı tasarlıyoruz.
 const userSchema = mongoose.Schema({
@@ -17,6 +18,7 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
+    unique: [true, ''],
   },
   createdAt: {
     type: Date,
@@ -57,5 +59,11 @@ const userSchema = mongoose.Schema({
   },
 });
 
+userSchema.methods.joiValidate = function (obj) {
+  var schema = {
+    email: Joi.string().required(),
+  };
+  return Joi.valid(obj, schema);
+};
 //+userSchemayı module.exports ile dışarı çıkarıyoruz.
 module.exports = mongoose.model('User', userSchema);

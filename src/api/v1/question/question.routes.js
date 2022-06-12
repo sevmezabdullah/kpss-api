@@ -1,5 +1,8 @@
 const express = require('express');
 const questionRouter = express.Router();
+
+const Question = require('../../../models/question/question.schema');
+
 const {
   createQuestionContoller,
   getAllQuestionController,
@@ -11,11 +14,13 @@ const {
   getHowManyCorrectAnswerQuestionByIdController,
 } = require('./question.controller');
 
+const advancedResults = require('../../../middlewares/advenced.result');
+
 questionRouter.post('/createQuestion', createQuestionContoller);
 
 questionRouter.get(
   '/getAllQuestion',
-
+  advancedResults(Question, 'title'),
   getAllQuestionController
 );
 questionRouter.delete('/deleteById/:id', deleteQuestionController);

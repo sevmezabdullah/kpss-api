@@ -6,16 +6,18 @@ const app = express();
 const config = require('./config/config');
 //+ Routing işlemlerini daha rahat yapabilmek amacıyla api.js dosyası import edilir.
 const api = require('./api/api');
-
+const errorHandler = require('./middlewares/error');
 const expressSession = require('express-session')({
   secret: 'secret',
   resave: false,
-  saveUninitialized: false,
+  saveUninitialized: true,
 });
 
 app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(errorHandler);
 //+ eskiden request body sinde gelen json dosyalarını decode etmek için farklı paketlere ihtiyaç duyulur. Ancak express e gelen güncellemelerle alttaki kod ile gelen requestlerin bodylerini json olarak direk alabiliyoruz.
 app.use(express.json());
 

@@ -45,12 +45,7 @@ async function deleteQuestionController(request, response) {
 // !Body : []
 //+ Auth : [admin,user]
 async function getAllQuestionController(request, response) {
-  const result = await getAllQuestion();
-  if (result.error != null) {
-    return response.status(404).json({ error: result.error });
-  } else {
-    return response.status(200).json(result);
-  }
+  return response.status(200).json(response.advancedResults);
 }
 
 async function updateQuestionByIdController(request, response) {
