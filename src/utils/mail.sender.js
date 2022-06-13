@@ -19,12 +19,19 @@ const oAuth2Client = new google.auth.OAuth2(
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
 // Open template file
-var source = fs.readFileSync(
-  path.join(__dirname, '../views/template.handlebars'),
+const source = fs.readFileSync(
+  path.join(__dirname, '../views/email/activation.email.handlebars'),
   'utf8'
 );
 
-var verificationTemplate = Handlebars.compile(source);
+const verificationTemplate = Handlebars.compile(source);
+
+const forgotSource = fs.readFileSync(
+  path.join(__dirname, '../views/email/forgot.password.handlebars'),
+  'utf8'
+);
+
+const forgotPasswordEmailTemplate = Handlebars.compile(forgotSource);
 
 async function configurationTranstporter() {
   try {
@@ -58,10 +65,7 @@ async function sendActivationEmail(email, to, subject) {
     html: verificationTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {
-    console.log(err);
-    console.log(result);
-  });
+  (await transporter).sendMail(mailOptions, (err, result) => {});
 }
 
 async function sendForgotPasswordEmail(email, to, subject) {
@@ -71,7 +75,7 @@ async function sendForgotPasswordEmail(email, to, subject) {
     from: `<${email}>`,
     to: `${to}`,
     subject: `${subject}`,
-    html: verificationTemplate(),
+    html: forgotPasswordEmailTemplate(),
   };
 
   (await transporter).sendMail(mailOptions, (err, result) => {});

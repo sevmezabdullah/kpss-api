@@ -26,15 +26,20 @@ const {
   updateUserRoleByIdController,
   loginWithGoogleMobileController,
   changeProfileImageController,
+  forgotPasswordController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
+userRouter.post('/forgotPassword', forgotPasswordController);
+
 userRouter.post('/login', (request, response, next) => {
   console.log(request.body);
   passport.authenticate('local', {
     successRedirect: '/profile',
   })(request, response, next);
 });
+
+userRouter.post('/mobile-google-login', loginWithGoogleMobileController);
 
 userRouter.get('/google', passport.authenticate('google'));
 
@@ -50,8 +55,6 @@ userRouter.get(
 );
 
 userRouter.get('/profile', asyncHandler(userProfileController));
-
-userRouter.post('/mobile-google-login', loginWithGoogleMobileController);
 
 userRouter.post('/addUnCompletedExam', addUnCompletedExamToUserController);
 userRouter.post('/addCompletedExam', addCompletedExamToUserController);

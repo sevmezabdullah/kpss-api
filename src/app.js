@@ -21,7 +21,7 @@ app.use(errorHandler);
 //+ eskiden request body sinde gelen json dosyalarını decode etmek için farklı paketlere ihtiyaç duyulur. Ancak express e gelen güncellemelerle alttaki kod ile gelen requestlerin bodylerini json olarak direk alabiliyoruz.
 app.use(express.json());
 
-app.engine('.hbs', exphbs({ extname: '.hbs' }));
+app.engine('.hbs', exphbs.engine({ extname: '.hbs' }));
 app.set('view engine', '.hbs');
 //+ routing yapmak için app.use middleware metoduna apiyi parametre olarak geçiyoruz.
 app.use('/api', api);

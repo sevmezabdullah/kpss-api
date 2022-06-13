@@ -2,6 +2,8 @@ const multer = require('multer');
 const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('cloudinary').v2;
 
+const config = require('../../../config/config');
+
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
@@ -14,6 +16,7 @@ const storage = new CloudinaryStorage({
     folder: 'Users',
   },
 });
+
 const {
   registerUser,
   verifyUserByUserId,
@@ -26,7 +29,10 @@ const {
   loginWithGoogleMobile,
 } = require('../../../models/user/user.access');
 
-const { sendActivationEmail } = require('../../../utils/mail.sender');
+const {
+  sendActivationEmail,
+  sendForgotPasswordEmail,
+} = require('../../../utils/mail.sender');
 const {
   createdUserMessage,
   namedUserRegisteredMessage,
@@ -36,20 +42,23 @@ const {
   notFoundedUserMessage,
   unCompletedExamError,
   completedExamMessage,
+  emailSubjectMessage,
+  forgotEmailMessage,
 } = require('./res/response.messages');
 
 async function userRegisterController(request, response) {
   const user = request.body;
-  const result = await registerUser(user);
+  const savedUser = await registerUser(user);
 
   const isSentMail = sendActivationEmail(
-    'abdullahsevmez@gmail.com',
-    'abdullahsevmez@gmail.com,'
+    config.SMTP_EMAIL,
+    savedUser.email,
+    emailSubjectMessage
   );
 
   if (isSentMail) {
     return response.status(200).json({
-      user: `${result.name} ${namedUserRegisteredMessage}`,
+      user: `${savedUser.name} ${namedUserRegisteredMessage}`,
       snackMessage: createdUserMessage,
       message: registeredUserMessage,
     });
@@ -81,6 +90,17 @@ async function userProfileController(request, response) {
   return response
     .status(200)
     .json({ message: 'Kullanıcı profili', user: request.user });
+}
+
+async function forgotPasswordController(request, response) {
+  const toEmail = request.body.email;
+
+  const isSentMail = sendForgotPasswordEmail(
+    config.SMTP_EMAIL,
+    toEmail,
+    forgotEmailMessage
+  );
+  return response.status(200).json(isSentMail);
 }
 
 //! Completed
@@ -176,5 +196,6 @@ module.exports = {
   changeProfileImageController,
   userProfileController,
   loginWithGoogleMobileController,
+  forgotPasswordController,
   uploadImage,
 };

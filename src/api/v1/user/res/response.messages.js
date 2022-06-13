@@ -7,6 +7,9 @@ const deletedUserMessage = `isimli kullanıcı başarıyla silindi.`;
 const notFoundedUserMessage = 'kullanıcı bulunamadı.';
 const unCompletedExamError = 'Tamamlanmayan sınavın eklenmesinde hata oluştu.';
 const completedExamMessage = 'Sınav başarıyla tamamlandı.';
+const emailSubjectMessage = 'Hesap Aktivasyonu';
+const forgotEmailMessage =
+  'Şifrenizi mi unuttunuz ? Mailde gönderilen linke tıklayarak kolayca sıfırlayabilirsiniz.';
 
 module.exports = {
   createdUserMessage,
@@ -17,4 +20,6 @@ module.exports = {
   notFoundedUserMessage,
   unCompletedExamError,
   completedExamMessage,
+  emailSubjectMessage,
+  forgotEmailMessage,
 };
