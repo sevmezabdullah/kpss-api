@@ -23,7 +23,9 @@ var source = fs.readFileSync(
   path.join(__dirname, '../views/template.handlebars'),
   'utf8'
 );
+
 var verificationTemplate = Handlebars.compile(source);
+
 async function configurationTranstporter() {
   try {
     const accessToken = await oAuth2Client.getAccessToken();
@@ -56,7 +58,10 @@ async function sendActivationEmail(email, to, subject) {
     html: verificationTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {});
+  (await transporter).sendMail(mailOptions, (err, result) => {
+    console.log(err);
+    console.log(result);
+  });
 }
 
 async function sendForgotPasswordEmail(email, to, subject) {
@@ -66,7 +71,7 @@ async function sendForgotPasswordEmail(email, to, subject) {
     from: `<${email}>`,
     to: `${to}`,
     subject: `${subject}`,
-    html: forgotPasswordTemplate(),
+    html: verificationTemplate(),
   };
 
   (await transporter).sendMail(mailOptions, (err, result) => {});

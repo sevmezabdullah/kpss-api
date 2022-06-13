@@ -1,6 +1,5 @@
 //+ UserSchema modelinin tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
-const Joi = require('joi');
 
 //+ userSchemayı tasarlıyoruz.
 const userSchema = mongoose.Schema({
@@ -18,7 +17,6 @@ const userSchema = mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: [true, ''],
   },
   createdAt: {
     type: Date,
@@ -34,7 +32,7 @@ const userSchema = mongoose.Schema({
 
   //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25,{question.category.correct:10,question.category.wrong:25}}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
 
-  completedExamResults: [{ type: mongoose.Schema.Types.Mixed, unique: true }],
+  completedExamResults: [{ type: mongoose.Schema.Types.Mixed }],
 
   //+ Kullanıcının katıldığı ancak tamamlamadığı testlerin id lerinin liste olarak tutulduğu property
   unCompletedExams: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Exam' }],
@@ -59,11 +57,5 @@ const userSchema = mongoose.Schema({
   },
 });
 
-userSchema.methods.joiValidate = function (obj) {
-  var schema = {
-    email: Joi.string().required(),
-  };
-  return Joi.valid(obj, schema);
-};
 //+userSchemayı module.exports ile dışarı çıkarıyoruz.
 module.exports = mongoose.model('User', userSchema);

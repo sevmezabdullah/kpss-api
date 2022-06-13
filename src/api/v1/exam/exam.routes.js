@@ -16,11 +16,7 @@ const {
 const advencedResults = require('../../../middlewares/advenced.result');
 
 //! ====== Working =====
-examRouter.get(
-  '/getAllExam',
-  advencedResults(Exam, 'title'),
-  getAllExamController
-);
+examRouter.get('/getAllExam', advencedResults(Exam), getAllExamController);
 //! ====== Working =====
 examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
 //! ====== Working =====

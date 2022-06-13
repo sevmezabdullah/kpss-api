@@ -16,6 +16,7 @@ const {
   userRegisterController,
   userLoginController,
   userProfileController,
+  uploadImage,
   verifyUserByIdController,
   deleteUserByIdController,
   getAllUserController,
@@ -24,6 +25,7 @@ const {
   addCompletedExamToUserController,
   updateUserRoleByIdController,
   loginWithGoogleMobileController,
+  changeProfileImageController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
@@ -65,5 +67,11 @@ userRouter.delete('/deleteUser', deleteUserByIdController);
 
 userRouter.put('/verfiyUser/:userId', verifyUserByIdController);
 userRouter.put('/changeRole', updateUserRoleByIdController);
+userRouter.put(
+  '/changeProfileImage',
+  uploadImage.single('picture'),
+
+  changeProfileImageController
+);
 
 module.exports = userRouter;
