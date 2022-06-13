@@ -3,7 +3,7 @@ const {
   getExamById,
   deleteExamById,
   addQuestionByIdtoExam,
-  getAllExam,
+
   getAllQuestionById,
   deleteQuestionByIdFromExam,
   getAllUserHasBeenSeenExam,
@@ -52,9 +52,7 @@ async function addQuestionByIdToExamController(request, response) {
 }
 
 async function getAllExamController(request, response) {
-  const allExams = await getAllExam();
-
-  return response.status(200).json(allExams);
+  return response.status(200).json(response.advancedResults);
 }
 
 async function getAllQuestionInExamController(request, response) {

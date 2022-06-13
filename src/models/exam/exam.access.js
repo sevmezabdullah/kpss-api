@@ -38,11 +38,6 @@ async function addQuestionByIdtoExam(examId, questionId) {
   return exam;
 }
 
-async function getAllExam() {
-  const exams = await Exam.find({});
-  return exams;
-}
-
 //+ Id bilgisine göre exam içerisindeki bütün soruları getiren metot - sınava başlarken çalışacak metot
 async function getAllQuestionById(examId) {
   const questionsInExam = await Exam.findOne({ _id: examId })
@@ -96,6 +91,4 @@ module.exports = {
   getAllUserHasBeenSeenExam,
   deleteExamById,
   getHowManySeenExamById,
-
-  getAllExam,
 };

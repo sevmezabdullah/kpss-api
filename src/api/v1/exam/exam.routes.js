@@ -1,5 +1,6 @@
 const express = require('express');
 const examRouter = express.Router();
+const Exam = require('../../../models/exam/exam.schema');
 const {
   createExamController,
   getExamByIdController,
@@ -12,8 +13,14 @@ const {
   updateExamController,
 } = require('./exam.controller');
 
+const advencedResults = require('../../../middlewares/advenced.result');
+
 //! ====== Working =====
-examRouter.get('/getAllExam', getAllExamController);
+examRouter.get(
+  '/getAllExam',
+  advencedResults(Exam, 'title'),
+  getAllExamController
+);
 //! ====== Working =====
 examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
 //! ====== Working =====
