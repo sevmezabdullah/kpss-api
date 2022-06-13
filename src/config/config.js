@@ -26,6 +26,7 @@ const FACEBOOK_APP_ID = process.env.FACEBOOK_APP_ID;
 const FACEBOOK_APP_SECRET = process.env.FACEBOOK_APP_SECRET;
 
 const SMTP_EMAIL = process.env.SMTP_EMAIL;
+const JWT_SECRET = process.env.JWT_SECRET;
 
 module.exports = {
   PORT: PORT,
@@ -41,4 +42,5 @@ module.exports = {
   FACEBOOK_APP_ID: FACEBOOK_APP_ID,
   FACEBOOK_APP_SECRET: FACEBOOK_APP_SECRET,
   SMTP_EMAIL: SMTP_EMAIL,
+  JWT_SECRET: JWT_SECRET,
 };

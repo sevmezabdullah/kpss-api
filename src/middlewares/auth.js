@@ -1,12 +1,10 @@
+const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const GithubStrategy = require('passport-github2').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
-const bcrypt = require('bcrypt');
-const LocalStrategy = require('passport-local').Strategy;
-const User = require('../models/user/user.schema');
 
+const User = require('../models/user/user.schema');
 const config = require('../config/config');
-const passport = require('passport');
 
 const GOOGLE_CLIENT_ID = config.GOOGLE_CLENT_ID;
 const GOOGLE_CLIENT_SECRET = config.GOOGLE_CLIENT_SECRET;

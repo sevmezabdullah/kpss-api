@@ -1,22 +1,4 @@
-const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-const cloudinary = require('cloudinary').v2;
-
 const config = require('../../../config/config');
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
-
-const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: {
-    folder: 'Users',
-  },
-});
-
 const {
   registerUser,
   verifyUserByUserId,
@@ -27,7 +9,10 @@ const {
   updateUserRoleById,
   loginUser,
   loginWithGoogleMobile,
+  changeProfileImage,
 } = require('../../../models/user/user.access');
+
+const cloudinary = require('../../../utils/cloudinary');
 
 const {
   sendActivationEmail,
@@ -82,7 +67,17 @@ async function loginWithGoogleMobileController(request, response) {
 }
 
 async function changeProfileImageController(request, response) {
-  return response.status(200).json({ picture: request.file.path });
+  const result = await cloudinary.uploader.upload(request.file.path);
+  const changedProfileImage = await changeProfileImage(
+    request.body.email,
+    result.url,
+    result.public_id
+  );
+  return response.status(201).json({
+    picture: result.url,
+    public_id: result.public_id,
+    user: changedProfileImage,
+  });
 }
 
 async function userProfileController(request, response) {
@@ -178,11 +173,6 @@ async function updateUserRoleByIdController(request, response) {
   }
 }
 
-const uploadImage = multer({
-  storage: storage,
-  dest: '12345',
-  preservePath: true,
-});
 module.exports = {
   userRegisterController,
   userLoginController,
@@ -197,5 +187,4 @@ module.exports = {
   userProfileController,
   loginWithGoogleMobileController,
   forgotPasswordController,
-  uploadImage,
 };

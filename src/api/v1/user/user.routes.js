@@ -7,7 +7,7 @@ const User = require('../../../models/user/user.schema');
 const advencedResults = require('../../../middlewares/advenced.result');
 
 const CLIENT_URL = '/api/v1/user/profile';
-
+const upload = require('../../../utils/multer');
 function isLoggedIn(req, res, next) {
   req.user ? next() : res.sendStatus(401);
 }
@@ -16,7 +16,6 @@ const {
   userRegisterController,
   userLoginController,
   userProfileController,
-  uploadImage,
   verifyUserByIdController,
   deleteUserByIdController,
   getAllUserController,
@@ -30,14 +29,10 @@ const {
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
+
 userRouter.post('/forgotPassword', forgotPasswordController);
 
-userRouter.post('/login', (request, response, next) => {
-  console.log(request.body);
-  passport.authenticate('local', {
-    successRedirect: '/profile',
-  })(request, response, next);
-});
+userRouter.post('/login', userLoginController);
 
 userRouter.post('/mobile-google-login', loginWithGoogleMobileController);
 
@@ -50,18 +45,24 @@ userRouter.get(
     failureRedirect: '/login',
   }),
   (request, response) => {
+    console.log(response);
     response.redirect('/');
   }
 );
 
-userRouter.get('/profile', asyncHandler(userProfileController));
+userRouter.get(
+  '/profile',
+  passport.authenticate('bearer', { session: false }),
+  asyncHandler(userProfileController)
+);
 
 userRouter.post('/addUnCompletedExam', addUnCompletedExamToUserController);
 userRouter.post('/addCompletedExam', addCompletedExamToUserController);
 
 userRouter.get(
   '/allUser',
-  advencedResults(User, 'name'),
+
+  advencedResults(User),
   asyncHandler(getAllUserController)
 );
 userRouter.get('/userById/:userId', getUserByIdController);
@@ -72,8 +73,7 @@ userRouter.put('/verfiyUser/:userId', verifyUserByIdController);
 userRouter.put('/changeRole', updateUserRoleByIdController);
 userRouter.put(
   '/changeProfileImage',
-  uploadImage.single('picture'),
-
+  upload.single('profile'),
   changeProfileImageController
 );
 

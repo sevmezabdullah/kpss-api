@@ -27,6 +27,11 @@ const userSchema = mongoose.Schema({
     type: Boolean,
     default: false,
   },
+
+  public_id: {
+    type: String,
+    default: '',
+  },
   //+ Kullanıcının şifresini tuttuğum property. Sorgularda gizlemek için select:false kullanıldı.
   password: {},
 

@@ -1,7 +1,7 @@
 //+ UserSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
 const bcrypt = require('bcrypt');
 const User = require('./user.schema');
-
+const cloudinary = require('../../utils/cloudinary');
 //+ Kullanıcı kaydı için kullanılacak metottur.
 async function registerUser(user) {
   const hashedPassword = await bcrypt.hash(`${user.password}`, 10, null);
@@ -26,6 +26,16 @@ async function loginUser(email, password) {
 
 //+ Kullanıcının şifresini değiştirdiği metottur.{profil sayfasındayken.}
 async function changePassword(userId, newPassword) {}
+
+async function changeProfileImage(email, profilePic, public_id) {
+  const updatedProfileImageUser = await User.findOneAndUpdate(
+    { email: email },
+    { $set: { profilePic: profilePic, public_id: public_id } },
+    { new: true }
+  );
+  await cloudinary.uploader.destroy(updatedProfileImageUser.public_id);
+  return updatedProfileImageUser;
+}
 
 //+ Email bilgisiyle kullanıcının sistemde kayıtlı olup olmadığını doğrulayan metottur.{Şifremi unuttum sayfası için}
 async function verifyUserByUserId(userId) {
@@ -109,15 +119,13 @@ async function loginWithGoogleMobile(email, name, surname, profilePic) {
   return user;
 }
 
-//+ Id bilgisine ve imageLink parametresine göre kullanıcının profil resmini değiştiren metottur.
-async function changeProfilePic(userId, imageLink) {}
-
 module.exports = {
   loginUser,
   registerUser,
   changePassword,
+  changeProfileImage,
   verifyUserByUserId,
-  changeProfilePic,
+
   getUserById,
   getAllUser,
   deleteUserById,
