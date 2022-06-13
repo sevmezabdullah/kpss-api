@@ -30,7 +30,6 @@ async function changePassword(userId, newPassword) {
   const result = await User.findByIdAndUpdate(userId, {
     $set: { password: hashPassword },
   });
-
   return result;
 }
 

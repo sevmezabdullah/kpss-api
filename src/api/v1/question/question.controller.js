@@ -10,10 +10,11 @@ const {
 async function createQuestionContoller(request, response) {
   //+ Database Access Layer dan gelen sonuç kullanıcıya dönmek üzere result nesnesine atandı
   const result = await createQuestion(request.body);
+
   //+ Sonuç içerisinde hata olup olmadığı konrol edildi.
   if (result.error != null) {
     //+ Hata kontrolü için errorChecker fonksiyonuna gönderildi.
-    errorChecker(result, response);
+    return response.status(404).json({ error: result.error });
   } else {
     //+ Hata yoksa kullanıcıya cevap dönüldü
     return response
@@ -60,23 +61,10 @@ async function updateQuestionByIdController(request, response) {
 
 async function getQuestionByIdController(request, response) {
   const question = await getQuestionById(request.params.id);
-  return response.status(200).json({ question, message: 'Soru bulundu' });
-}
-
-function errorChecker(result, response) {
-  const errorCode = result.error.code;
-
-  if (result.error.name == 'ValidationError') {
-    return response.status(404).json({
-      error:
-        'Soruyu kaydedebilmek için gerekli tüm verileri girdiğinizden emin olun.',
-    });
-  }
-
-  if (errorCode == 11000) {
-    return response.status(404).json({
-      message: `${result.error.keyValue.title} sorusunu tekrarlı şekilde kaydetmeye çalışıyorsunuz.`,
-    });
+  if (question != null) {
+    return response.status(200).json(question);
+  } else {
+    return response.status(404).json({ message: 'Soru bulunamadı' });
   }
 }
 

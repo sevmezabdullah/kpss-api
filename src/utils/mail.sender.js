@@ -18,6 +18,7 @@ const oAuth2Client = new google.auth.OAuth2(
   REDIRECT_URL
 );
 oAuth2Client.setCredentials({ refresh_token: REFRESH_TOKEN });
+
 // Open template file
 const source = fs.readFileSync(
   path.join(__dirname, '../views/email/activation.email.handlebars'),
