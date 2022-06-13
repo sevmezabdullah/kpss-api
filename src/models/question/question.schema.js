@@ -19,6 +19,10 @@ const questionSchema = mongoose.Schema({
     type: Date,
     default: Date.now(),
   },
+  questionImage: {
+    type: String,
+    default: '',
+  },
   //+ Doğru cevabın indexi
   correctAnswerIndex: {
     type: Number,

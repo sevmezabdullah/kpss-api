@@ -4,6 +4,7 @@ const Question = require('./question.schema');
 //+ Soru oluşturan metot
 async function createQuestion(question) {
   const questionDB = new Question(question);
+
   const result = await questionDB.save();
   return result;
 }

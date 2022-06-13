@@ -28,12 +28,15 @@ async function loginUser(email, password) {
 async function changePassword(userId, newPassword) {}
 
 async function changeProfileImage(email, profilePic, public_id) {
+  const removePicturefromUser = await User.findOne({ email: email });
+  await cloudinary.uploader.destroy(removePicturefromUser.public_id);
+
   const updatedProfileImageUser = await User.findOneAndUpdate(
     { email: email },
     { $set: { profilePic: profilePic, public_id: public_id } },
     { new: true }
   );
-  await cloudinary.uploader.destroy(updatedProfileImageUser.public_id);
+
   return updatedProfileImageUser;
 }
 
