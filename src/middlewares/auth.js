@@ -64,8 +64,7 @@ passport.serializeUser((user, done) => {
   if (user) return done(null, user);
   else return done(null, false);
 }),
-  passport.deserializeUser((user, done) => {
-    console.log(user);
+  passport.deserializeUser(async (user, done) => {
     if (user) return done(null, user);
     else return done(null, false);
   }),

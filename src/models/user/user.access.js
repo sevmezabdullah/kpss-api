@@ -25,7 +25,14 @@ async function loginUser(email, password) {
 }
 
 //+ Kullanıcının şifresini değiştirdiği metottur.{profil sayfasındayken.}
-async function changePassword(userId, newPassword) {}
+async function changePassword(userId, newPassword) {
+  const hashPassword = await bcrypt.hash(`${newPassword}`, 10, null);
+  const result = await User.findByIdAndUpdate(userId, {
+    $set: { password: hashPassword },
+  });
+
+  return result;
+}
 
 async function changeProfileImage(email, profilePic, public_id) {
   const removePicturefromUser = await User.findOne({ email: email });
@@ -125,8 +132,10 @@ async function loginWithGoogleMobile(email, name, surname, profilePic) {
 module.exports = {
   loginUser,
   registerUser,
+
   changePassword,
   changeProfileImage,
+
   verifyUserByUserId,
 
   getUserById,

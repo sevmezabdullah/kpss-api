@@ -26,9 +26,12 @@ const {
   loginWithGoogleMobileController,
   changeProfileImageController,
   forgotPasswordController,
+  changePasswordController,
 } = require('../user/user.controller');
 
 userRouter.post('/register', userRegisterController);
+
+userRouter.put('/changePassword', changePasswordController);
 
 userRouter.post('/forgotPassword', forgotPasswordController);
 
@@ -49,12 +52,8 @@ userRouter.get(
     response.redirect('/');
   }
 );
-
-userRouter.get(
-  '/profile',
-  passport.authenticate('bearer', { session: false }),
-  asyncHandler(userProfileController)
-);
+userRouter.get('/profile', asyncHandler(userProfileController));
+userRouter.get('/google', passport.authenticate('google'));
 
 userRouter.post('/addUnCompletedExam', addUnCompletedExamToUserController);
 userRouter.post('/addCompletedExam', addCompletedExamToUserController);

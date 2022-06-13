@@ -2,6 +2,7 @@ const config = require('../../../config/config');
 const {
   registerUser,
   verifyUserByUserId,
+  changePassword,
   deleteUserById,
   getUserById,
   addUnCompletedExamToUser,
@@ -48,6 +49,17 @@ async function userRegisterController(request, response) {
       message: registeredUserMessage,
     });
   }
+}
+
+async function changePasswordController(request, response) {
+  const changedPasswordUser = await changePassword(
+    request.body.userId,
+    request.body.password
+  );
+
+  return response
+    .status(201)
+    .json({ message: 'Şifre değiştirildi', user: changedPasswordUser });
 }
 
 async function userLoginController(request, response) {
@@ -187,4 +199,5 @@ module.exports = {
   userProfileController,
   loginWithGoogleMobileController,
   forgotPasswordController,
+  changePasswordController,
 };
