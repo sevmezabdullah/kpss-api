@@ -32,7 +32,9 @@ const forgotSource = fs.readFileSync(
   'utf8'
 );
 
-const forgotPasswordEmailTemplate = Handlebars.compile(forgotSource);
+const forgotPasswordEmailTemplate = Handlebars.compile(forgotSource, {
+  data: { message: 'Abdullah' },
+});
 
 async function configurationTranstporter() {
   try {
@@ -57,8 +59,9 @@ async function configurationTranstporter() {
   }
 }
 
-async function sendActivationEmail(email, to, subject) {
-  const transporter = configurationTranstporter();
+async function sendActivationEmail(email, to, userId, subject) {
+  const transporter = await configurationTranstporter();
+
   let mailOptions = {
     from: `<${email}>`,
     to: `${to}`,
@@ -66,7 +69,8 @@ async function sendActivationEmail(email, to, subject) {
     html: verificationTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {});
+  const result = await transporter.sendMail(mailOptions);
+  return result;
 }
 
 async function sendForgotPasswordEmail(email, to, subject) {
@@ -79,6 +83,14 @@ async function sendForgotPasswordEmail(email, to, subject) {
     html: forgotPasswordEmailTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {});
+  (await transporter).sendMail(mailOptions, (err, result) => {
+    console.log(err);
+    console.log(result);
+    if (err != null) {
+      return { errorMessage: 'mail gönderilirken bir hata oluştu' };
+    } else {
+      return { successMessage: 'mail başarılı şekilde gönderildi' };
+    }
+  });
 }
 module.exports = { sendActivationEmail, sendForgotPasswordEmail };

@@ -1,22 +1,28 @@
 //+ UserSchema modelinin tasarlandığı model katmanıdır.
 const mongoose = require('mongoose');
-
+const validator = require('validator');
 //+ userSchemayı tasarlıyoruz.
 const userSchema = mongoose.Schema({
   //+ Kullanıcının adını tuttuğum property
   name: {
     type: String,
-    required: true,
+    required: [true, 'Lütfen isminizi ekleyin'],
   },
   //+ Kullanıcının soyadını tuttuğum property
   surname: {
     type: String,
-    required: true,
+    required: [true, 'Lütfen soyisminizi ekleyin'],
   },
   //+ Kullanıcının email adresini tuttuğum property
   email: {
     type: String,
-    required: true,
+    required: [true, 'Lütfen email adresini ekleyin'],
+    unique: true,
+
+    match: [
+      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      'Lütfen geçerli bir email adresi girin',
+    ],
   },
   createdAt: {
     type: Date,
@@ -33,7 +39,9 @@ const userSchema = mongoose.Schema({
     default: '',
   },
   //+ Kullanıcının şifresini tuttuğum property. Sorgularda gizlemek için select:false kullanıldı.
-  password: {},
+  password: {
+    type: String,
+  },
 
   //+ Kullanıcının tamamladığı testlerin id lerinin liste halinde tutulduğu property. {testId : {correctCount:15,wrongCount:25,{question.category.correct:10,question.category.wrong:25}}} şeklinde kullanıcının doğru bildiği ve yanlış bildiği soru sayısı da tutulacak
 
@@ -51,6 +59,7 @@ const userSchema = mongoose.Schema({
   //+ Kullanıcının sisteme erişirken yetkisine göre katmanlara erişmesini sağlayan property
   role: {
     type: String,
+    enum: ['user', 'admin'],
     default: 'user',
   },
 

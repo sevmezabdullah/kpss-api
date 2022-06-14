@@ -12,7 +12,6 @@ const {
   loginWithGoogleMobile,
   changeProfileImage,
 } = require('../../../models/user/user.access');
-
 const cloudinary = require('../../../utils/cloudinary');
 
 const {
@@ -30,25 +29,24 @@ const {
   completedExamMessage,
   emailSubjectMessage,
   forgotEmailMessage,
+  registerMailErrorMessage,
 } = require('./res/response.messages');
 
 async function userRegisterController(request, response) {
   const user = request.body;
   const savedUser = await registerUser(user);
 
-  const isSentMail = sendActivationEmail(
+  await sendActivationEmail(
     config.SMTP_EMAIL,
     savedUser.email,
+    savedUser._id,
     emailSubjectMessage
   );
-
-  if (isSentMail) {
-    return response.status(200).json({
-      user: `${savedUser.name} ${namedUserRegisteredMessage}`,
-      snackMessage: createdUserMessage,
-      message: registeredUserMessage,
-    });
-  }
+  return response.status(200).json({
+    user: `${savedUser.name} ${namedUserRegisteredMessage}`,
+    snackMessage: createdUserMessage,
+    message: registeredUserMessage,
+  });
 }
 
 async function changePasswordController(request, response) {
@@ -56,7 +54,6 @@ async function changePasswordController(request, response) {
     request.body.userId,
     request.body.password
   );
-
   return response
     .status(201)
     .json({ message: 'Şifre değiştirildi', user: changedPasswordUser });
@@ -64,7 +61,6 @@ async function changePasswordController(request, response) {
 
 async function userLoginController(request, response) {
   const user = await loginUser(request.body.email, request.body.password);
-
   return response.status(200).json(user);
 }
 
@@ -74,7 +70,6 @@ async function loginWithGoogleMobileController(request, response) {
   const surname = request.body.surname;
   const profilePic = request.body.profilePic;
   const user = await loginWithGoogleMobile(email, name, surname, profilePic);
-
   return response.status(200).json(user);
 }
 

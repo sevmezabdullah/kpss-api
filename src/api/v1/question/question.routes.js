@@ -1,7 +1,8 @@
 const express = require('express');
 const questionRouter = express.Router();
-
+const asyncHandler = require('../../../middlewares/async');
 const Question = require('../../../models/question/question.schema');
+const { protect, authorize } = require('../../../middlewares/auth');
 
 const {
   createQuestionContoller,
@@ -16,7 +17,12 @@ const {
 
 const advancedResults = require('../../../middlewares/advenced.result');
 
-questionRouter.post('/createQuestion', createQuestionContoller);
+questionRouter.post(
+  '/createQuestion',
+  protect,
+  authorize('admin'),
+  asyncHandler(createQuestionContoller)
+);
 
 questionRouter.get(
   '/getAllQuestion',

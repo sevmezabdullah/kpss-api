@@ -15,12 +15,20 @@ mongoose.connection.on('error', (err) => {
 
 //+ Veritabanına bağlanmak için oluşturulan metot
 async function connectDB() {
-  await mongoose.connect(config.DB_ADRESS, { useUnifiedTopology: true }, () => {
-    console.log(
-      `Veritabanına bağlandı. : ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}s`
-        .bgMagenta
-    );
-  });
+  await mongoose.connect(
+    config.DB_ADRESS,
+    {
+      useNewUrlParser: true,
+
+      useUnifiedTopology: true,
+    },
+    () => {
+      console.log(
+        `Veritabanına bağlandı. : ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}s`
+          .bgMagenta
+      );
+    }
+  );
 }
 
 //+ Veritabanı bağlantısının kesilmesi için yazılan metot

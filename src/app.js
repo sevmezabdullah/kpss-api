@@ -17,7 +17,6 @@ app.use(expressSession);
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(errorHandler);
 //+ eskiden request body sinde gelen json dosyalarını decode etmek için farklı paketlere ihtiyaç duyulur. Ancak express e gelen güncellemelerle alttaki kod ile gelen requestlerin bodylerini json olarak direk alabiliyoruz.
 app.use(express.json());
 
@@ -35,6 +34,7 @@ app.use('/', (request, response) => {
     Database: 'MongoDB',
   });
 });
+app.use(errorHandler);
 
 //+ proje çalıştığınde index.html dönerek ayrı bir web sayfası görüntülenmesi tavsiye edilir. Genelde landing page için kullanılan path dir.
 

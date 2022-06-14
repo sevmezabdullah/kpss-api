@@ -11,6 +11,9 @@ const emailSubjectMessage = 'Hesap Aktivasyonu';
 const forgotEmailMessage =
   'Şifrenizi mi unuttunuz ? Mailde gönderilen linke tıklayarak kolayca sıfırlayabilirsiniz.';
 
+const registerMailErrorMessage =
+  'Mail gönderilirken bir hata oluştu lütfen sistem yöneticisi ile iletişime geçin';
+
 module.exports = {
   createdUserMessage,
   namedUserRegisteredMessage,
@@ -22,4 +25,5 @@ module.exports = {
   completedExamMessage,
   emailSubjectMessage,
   forgotEmailMessage,
+  registerMailErrorMessage,
 };

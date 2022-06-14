@@ -2,6 +2,9 @@
 const bcrypt = require('bcrypt');
 const User = require('./user.schema');
 const cloudinary = require('../../utils/cloudinary');
+const config = require('../../config/config');
+const jwt = require('jsonwebtoken');
+
 //+ Kullanıcı kaydı için kullanılacak metottur.
 async function registerUser(user) {
   const hashedPassword = await bcrypt.hash(`${user.password}`, 10, null);
@@ -19,9 +22,19 @@ async function passwordChecker(email, password) {
 
 //+ Kullanıcının email ve password ile projeye giriş yaptığı metottur.
 async function loginUser(email, password) {
-  const user = await User.findOne({ email: email });
-  // const compare = await bcrypt.compare(password, user.password);
-  return user;
+  const user = await User.findOne({ email: email }).select(
+    'name surname password profilePic'
+  );
+  if (user == null) {
+    return { errorMessage: 'Kullanıcı bulunamadı' };
+  }
+  const comparePassword = await bcrypt.compare(password, user.password);
+  if (comparePassword) {
+    let token = await generateToken(user.id, user.role);
+    return { user, token };
+  } else {
+    return { errorMessage: 'Eposta yada şifre hatalı' };
+  }
 }
 
 //+ Kullanıcının şifresini değiştirdiği metottur.{profil sayfasındayken.}
@@ -36,7 +49,6 @@ async function changePassword(userId, newPassword) {
 async function changeProfileImage(email, profilePic, public_id) {
   const removePicturefromUser = await User.findOne({ email: email });
   await cloudinary.uploader.destroy(removePicturefromUser.public_id);
-
   const updatedProfileImageUser = await User.findOneAndUpdate(
     { email: email },
     { $set: { profilePic: profilePic, public_id: public_id } },
@@ -107,12 +119,17 @@ async function addUnCompletedExamToUser(userId, examId) {
   return dbResult;
 }
 
+async function generateToken(userId, userRole) {
+  const token = jwt.sign({ id: userId, role: userRole }, config.JWT_SECRET);
+  return token;
+}
+
 async function loginWithGoogleMobile(email, name, surname, profilePic) {
-  const user = await User.findOne({ email: email });
-
+  const user = await User.findOne({ email: email }).select(
+    'name surname profilePic'
+  );
+  let token = '';
   if (!user) {
-    console.log('Kullanıcı bulunamadı');
-
     const createdUser = new User({
       email,
       name,
@@ -120,12 +137,14 @@ async function loginWithGoogleMobile(email, name, surname, profilePic) {
       profilePic,
       isVerify: true,
     });
-
     const savedUser = createdUser.save();
-
-    return savedUser;
+    token = await generateToken(savedUser._id, savedUser.role);
+    savedUser.token = token;
+    return { savedUser, token };
   }
-  return user;
+  token = await generateToken(user._id, user.role);
+  user.token = token;
+  return { user, token };
 }
 
 module.exports = {
