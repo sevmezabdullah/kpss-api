@@ -66,15 +66,16 @@ async function changePassword(userId, newPassword) {
 }
 
 async function changeProfileImage(email, profilePic, public_id) {
-  const removePicturefromUser = await User.findOne({ email: email });
-  await cloudinary.uploader.destroy(removePicturefromUser.public_id);
-  const updatedProfileImageUser = await User.findOneAndUpdate(
-    { email: email },
-    { $set: { profilePic: profilePic, public_id: public_id } },
-    { new: true }
-  );
+  if (public_id != null) {
+    await cloudinary.uploader.destroy(public_id);
+    const updatedProfileImageUser = await User.findOneAndUpdate(
+      { email: email },
+      { $set: { profilePic: profilePic, public_id: public_id } },
+      { new: true }
+    );
 
-  return updatedProfileImageUser;
+    return updatedProfileImageUser;
+  }
 }
 
 //+ Email bilgisiyle kullanıcının sistemde kayıtlı olup olmadığını doğrulayan metottur.{Şifremi unuttum sayfası için}
@@ -89,7 +90,7 @@ async function verifyUserByUserId(userId) {
 
 //+ Kayıtlı tüm kullanıcıları getiren metottur.
 async function getAllUser() {
-  const result = await User.find();
+  const result = await User.find().populate('unCompletedExams');
   return result;
 }
 

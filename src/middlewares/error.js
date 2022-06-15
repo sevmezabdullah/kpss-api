@@ -19,6 +19,13 @@ const errorHandler = (err, req, res, next) => {
     error = new ErrorResponse(message, 400);
   }
 
+  if (
+    error.message == 'User role user is not authorized to access this route'
+  ) {
+    const message = 'Bu işlemi yapmak için yetkiniz bulunmamaktadır.';
+    error = new ErrorResponse(message, 403);
+  }
+
   if (error.message == 'Not authorized to access this route') {
     const message = 'Erişim izniniz bulunmamaktadır';
     error = new ErrorResponse(message, 401);
@@ -30,6 +37,11 @@ const errorHandler = (err, req, res, next) => {
 
     error = new ErrorResponse(message, 400);
   }
+
+  if (err.message === 'File type is not supported') {
+    const message = 'Dosya tipi desteklenmiyor.';
+    error = new ErrorResponse(message, 401);
+  }
   if (
     err.message ===
     'User validation failed: email: Lütfen geçerli bir email adresi girin'
@@ -38,6 +50,10 @@ const errorHandler = (err, req, res, next) => {
     error = new ErrorResponse(message, 403);
   }
 
+  if (err.message === "Cannot read property 'role' of null") {
+    const message = 'Rol bilgisi tanımlanamadı.';
+    error = new ErrorResponse(message, 404);
+  }
   res.status(error.statusCode || 500).json({
     success: false,
     error: error.message || 'Server Error',

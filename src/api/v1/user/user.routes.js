@@ -58,7 +58,7 @@ userRouter.get(
   '/allUser',
   protect,
   authorize('admin'),
-  advencedResults(User),
+  advencedResults(User, 'unCompletedExams completedExamResults'),
   asyncHandler(getAllUserController)
 );
 userRouter.get(

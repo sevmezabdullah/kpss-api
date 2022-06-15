@@ -1,4 +1,5 @@
 const config = require('../../../config/config');
+const jwtDecode = require('jwt-decode');
 const {
   registerUser,
   verifyUserByUserId,
@@ -36,24 +37,43 @@ async function userRegisterController(request, response) {
   const user = request.body;
   const savedUser = await registerUser(user);
 
-  await sendActivationEmail(
+  const isSentMail = await sendActivationEmail(
     config.SMTP_EMAIL,
     savedUser.email,
     savedUser._id,
     emailSubjectMessage
   );
-  return response.status(200).json({
-    user: `${savedUser.name} ${namedUserRegisteredMessage}`,
-    snackMessage: createdUserMessage,
-    message: registeredUserMessage,
-  });
+
+  if (isSentMail != null) {
+    if (isSentMail.accepted.length > 0) {
+      return response.status(200).json({
+        user: `${savedUser.name} ${namedUserRegisteredMessage}`,
+        snackMessage: createdUserMessage,
+        message: registeredUserMessage,
+      });
+    } else {
+      return response
+        .status(404)
+        .json({ errorMessage: registerMailErrorMessage });
+    }
+  } else {
+    return response.status(500).json({
+      errorMessage:
+        'Sunucularımızda geçici bir arıza meydana gelmiştir lütfen kısa bir süre sonra tekrar deneyin',
+    });
+  }
 }
 
 async function changePasswordController(request, response) {
+  const token = request.headers.authorization.split(' ')[1];
+
+  const decodedJWT = jwtDecode(token);
+
   const changedPasswordUser = await changePassword(
-    request.body.userId,
+    decodedJWT.id,
     request.body.password
   );
+
   return response
     .status(201)
     .json({ message: 'Şifre değiştirildi', user: changedPasswordUser });
@@ -75,6 +95,7 @@ async function loginWithGoogleMobileController(request, response) {
 
 async function changeProfileImageController(request, response) {
   const result = await cloudinary.uploader.upload(request.file.path);
+
   const changedProfileImage = await changeProfileImage(
     request.body.email,
     result.url,
@@ -84,6 +105,8 @@ async function changeProfileImageController(request, response) {
     picture: result.url,
     public_id: result.public_id,
     user: changedProfileImage,
+    success: true,
+    message: 'Profil resmi değişikliği başarılı.',
   });
 }
 
@@ -94,9 +117,9 @@ async function userProfileController(request, response) {
     .json({ message: 'Kullanıcı profili', user: request.user });
 }
 
+//! Completed
 async function forgotPasswordController(request, response) {
   const toEmail = request.body.email;
-
   const isSentMail = await sendForgotPasswordEmail(
     config.SMTP_EMAIL,
     toEmail,
@@ -104,12 +127,10 @@ async function forgotPasswordController(request, response) {
   );
 
   if (isSentMail.accepted.length > 0) {
-    return response
-      .status(200)
-      .json({
-        message: 'Lütfen gönderilen epostayı kontrol edin',
-        success: true,
-      });
+    return response.status(200).json({
+      message: 'Lütfen gönderilen epostayı kontrol edin',
+      success: true,
+    });
   } else {
     return response.status(404).json(registerMailErrorMessage);
   }
@@ -185,7 +206,7 @@ async function updateUserRoleByIdController(request, response) {
 
   if (result != null) {
     return response.status(200).json({
-      message: ``,
+      message: `${result.name} isimli kullanıcının yetkisi güncellendi`,
     });
   }
 }
