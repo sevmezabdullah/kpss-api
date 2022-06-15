@@ -33,17 +33,16 @@ const {
   registerMailErrorMessage,
 } = require('./res/response.messages');
 
+//! Completed
 async function userRegisterController(request, response) {
   const user = request.body;
   const savedUser = await registerUser(user);
-
   const isSentMail = await sendActivationEmail(
     config.SMTP_EMAIL,
     savedUser.email,
     savedUser._id,
     emailSubjectMessage
   );
-
   if (isSentMail != null) {
     if (isSentMail.accepted.length > 0) {
       return response.status(200).json({
@@ -64,16 +63,14 @@ async function userRegisterController(request, response) {
   }
 }
 
+//! Completed
 async function changePasswordController(request, response) {
   const token = request.headers.authorization.split(' ')[1];
-
   const decodedJWT = jwtDecode(token);
-
   const changedPasswordUser = await changePassword(
     decodedJWT.id,
     request.body.password
   );
-
   return response
     .status(201)
     .json({ message: 'Şifre değiştirildi', user: changedPasswordUser });
@@ -84,6 +81,7 @@ async function userLoginController(request, response) {
   return response.status(200).json(user);
 }
 
+//! Completed
 async function loginWithGoogleMobileController(request, response) {
   const email = request.body.email;
   const name = request.body.name;
@@ -93,6 +91,7 @@ async function loginWithGoogleMobileController(request, response) {
   return response.status(200).json(user);
 }
 
+//! Completed
 async function changeProfileImageController(request, response) {
   const result = await cloudinary.uploader.upload(request.file.path);
 
@@ -108,13 +107,6 @@ async function changeProfileImageController(request, response) {
     success: true,
     message: 'Profil resmi değişikliği başarılı.',
   });
-}
-
-async function userProfileController(request, response) {
-  console.log(request.user);
-  return response
-    .status(200)
-    .json({ message: 'Kullanıcı profili', user: request.user });
 }
 
 //! Completed
@@ -222,7 +214,7 @@ module.exports = {
   addCompletedExamToUserController,
   updateUserRoleByIdController,
   changeProfileImageController,
-  userProfileController,
+
   loginWithGoogleMobileController,
   forgotPasswordController,
   changePasswordController,
