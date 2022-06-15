@@ -83,14 +83,6 @@ async function sendForgotPasswordEmail(email, to, subject) {
     html: forgotPasswordEmailTemplate(),
   };
 
-  (await transporter).sendMail(mailOptions, (err, result) => {
-    console.log(err);
-    console.log(result);
-    if (err != null) {
-      return { errorMessage: 'mail gönderilirken bir hata oluştu' };
-    } else {
-      return { successMessage: 'mail başarılı şekilde gönderildi' };
-    }
-  });
+  return (await transporter).sendMail(mailOptions);
 }
 module.exports = { sendActivationEmail, sendForgotPasswordEmail };

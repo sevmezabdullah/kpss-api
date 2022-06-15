@@ -56,6 +56,11 @@ const userSchema = mongoose.Schema({
     default: 0,
   },
 
+  authSource: {
+    type: String,
+    enum: ['classic', 'google'],
+    default: 'classic',
+  },
   //+ Kullanıcının sisteme erişirken yetkisine göre katmanlara erişmesini sağlayan property
   role: {
     type: String,

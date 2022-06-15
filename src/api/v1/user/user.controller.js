@@ -97,12 +97,22 @@ async function userProfileController(request, response) {
 async function forgotPasswordController(request, response) {
   const toEmail = request.body.email;
 
-  const isSentMail = sendForgotPasswordEmail(
+  const isSentMail = await sendForgotPasswordEmail(
     config.SMTP_EMAIL,
     toEmail,
     forgotEmailMessage
   );
-  return response.status(200).json(isSentMail);
+
+  if (isSentMail.accepted.length > 0) {
+    return response
+      .status(200)
+      .json({
+        message: 'Lütfen gönderilen epostayı kontrol edin',
+        success: true,
+      });
+  } else {
+    return response.status(404).json(registerMailErrorMessage);
+  }
 }
 
 //! Completed

@@ -9,6 +9,7 @@ const jwt = require('jsonwebtoken');
 async function registerUser(user) {
   const hashedPassword = await bcrypt.hash(`${user.password}`, 10, null);
   user.password = hashedPassword;
+  user.authSource = 'classic';
   const userDB = new User(user);
   const registeredUser = await userDB.save();
   return registeredUser;
@@ -23,15 +24,33 @@ async function passwordChecker(email, password) {
 //+ Kullanıcının email ve password ile projeye giriş yaptığı metottur.
 async function loginUser(email, password) {
   const user = await User.findOne({ email: email }).select(
-    'name surname password profilePic'
+    'name surname password profilePic authSource isVerify'
   );
+
+  if (user != null) {
+    if (user.authSource == 'google') {
+      return {
+        errorMessage:
+          'Bu hesap daha önce google ile giriş seçeneği ile kaydolmuştur. Lütfen Google ile giriş yapmayı deneyin',
+      };
+    }
+  }
+
   if (user == null) {
     return { errorMessage: 'Kullanıcı bulunamadı' };
   }
   const comparePassword = await bcrypt.compare(password, user.password);
   if (comparePassword) {
     let token = await generateToken(user.id, user.role);
-    return { user, token };
+
+    if (user.isVerify) {
+      return { user, token };
+    } else {
+      return {
+        errorMessage:
+          'Lütfen e-posta adresindeki onay epostasını kontrol edin.',
+      };
+    }
   } else {
     return { errorMessage: 'Eposta yada şifre hatalı' };
   }
@@ -131,13 +150,14 @@ async function loginWithGoogleMobile(email, name, surname, profilePic) {
   let token = '';
   if (!user) {
     const createdUser = new User({
+      authSource: 'google',
       email,
       name,
       surname,
       profilePic,
       isVerify: true,
     });
-    const savedUser = createdUser.save();
+    const savedUser = await createdUser.save();
     token = await generateToken(savedUser._id, savedUser.role);
     savedUser.token = token;
     return { savedUser, token };
