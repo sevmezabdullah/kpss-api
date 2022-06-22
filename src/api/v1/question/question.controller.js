@@ -7,6 +7,9 @@ const {
   getHowManyWrongAnswerQuestionById,
 } = require('../../../models/question/question.access');
 
+const {
+  deleteQuestionErrorMessage,
+} = require('../question/res/response.messages');
 async function createQuestionContoller(request, response) {
   //+ Database Access Layer dan gelen sonuç kullanıcıya dönmek üzere result nesnesine atandı
   const result = await createQuestion(request.body);
@@ -14,12 +17,10 @@ async function createQuestionContoller(request, response) {
   //+ Sonuç içerisinde hata olup olmadığı konrol edildi.
   if (result.error != null) {
     //+ Hata kontrolü için errorChecker fonksiyonuna gönderildi.
-    return response.status(404).json({ error: result.error });
+    return response.status(404).json({ error: result.error, success: false });
   } else {
     //+ Hata yoksa kullanıcıya cevap dönüldü
-    return response
-      .status(201)
-      .json({ result, message: `${result.title} sorusu eklendi.` });
+    return response.status(201).json({ data: result, success: true });
   }
 }
 
@@ -31,11 +32,11 @@ async function deleteQuestionController(request, response) {
   const id = request.params.id;
   const result = await deleteQuestionById(id);
   if (result != null) {
-    return response
-      .status(200)
-      .json({ result, message: `${result.title} sorusu silindi.` });
+    return response.status(200).json({ data: result, success: true });
   } else {
-    return response.status(404).json({ message: 'Silinecek soru bulunamadı.' });
+    return response
+      .status(404)
+      .json({ error: deleteQuestionErrorMessage, success: false });
   }
 }
 
@@ -54,9 +55,13 @@ async function updateQuestionByIdController(request, response) {
     request.params.id,
     newQuestion
   );
-  return response
-    .status(200)
-    .json({ updatedQuestion, message: 'Güncelleme tamamlandı.' });
+  if (updateQuestionById != null) {
+    return response.status(200).json({ data: updatedQuestion, success: true });
+  } else {
+    return response
+      .status(404)
+      .json({ error: updatedQuestion, success: false });
+  }
 }
 
 async function getQuestionByIdController(request, response) {
@@ -91,7 +96,6 @@ module.exports = {
   getAllQuestionController,
   updateQuestionByIdController,
   getQuestionByIdController,
-
   getHowManyWrongAnswerQuestionByIdController,
   getHowManyCorrectAnswerQuestionByIdController,
 };

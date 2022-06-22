@@ -12,31 +12,49 @@ const {
   getHowManySeenExamById,
 } = require('../../../models/exam/exam.access');
 
+const {
+  updateErrorMessage,
+  getHowManyUserHasBeenSeenErrorMessage,
+  deleteQuestionInExamErrorMessage,
+  getAllUserHasBeenSeenErrorMessage,
+  getExamByIdErrorMessage,
+  createExamErrorMessage,
+} = '../exam/res/response.messages.js';
+
 async function createExamController(request, response) {
   const title = request.body.title;
   const duration = request.body.duration;
   const category = request.body.category;
   const createdExam = await createExam({ title, duration, category });
-  return response.status(201).json(createdExam);
+  if (createExam != null) {
+    return response
+      .status(404)
+      .json({ error: createExamErrorMessage, success: false });
+  }
+
+  return response.status(201).json({ data: createdExam, susscess: true });
 }
 async function getExamByIdController(request, response) {
   const userId = request.body.userId;
   const exam = await getExamById(request.params.id, userId);
 
   if (exam) {
-    return response.status(200).json({ result: exam });
+    return response.status(200).json({ data: exam, success: true });
   }
 
-  return response.status(404).json({ result: 'Sonuç bulunamadı.' });
+  return response
+    .status(404)
+    .json({ error: getExamByIdErrorMessage, success: false });
 }
 async function deleteExamByIdController(request, response) {
   const exam = await deleteExamById(request.params.id);
   if (exam) {
     return response.status(200).json({ exam, message: 'Silindi' });
   } else {
-    return response
-      .status(404)
-      .json({ result: 'Sonuç bulunamadı. Silme işlemi başarısız' });
+    return response.status(404).json({
+      error: deleteExamByIdErrorMessage,
+      success: false,
+    });
   }
 }
 
@@ -46,9 +64,16 @@ async function addQuestionByIdToExamController(request, response) {
     request.body.questionId
   );
 
-  return response
-    .status(200)
-    .json({ result: addedQuestionById, message: 'Soru başarıyla eklendi.' });
+  if (addQuestionByIdtoExam != null) {
+    return response
+      .status(200)
+      .json({ data: addedQuestionById, success: true });
+  } else {
+    return response.status(404).json({
+      error: addQuestionByIdToExamErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function getAllExamController(request, response) {
@@ -57,14 +82,29 @@ async function getAllExamController(request, response) {
 
 async function getAllQuestionInExamController(request, response) {
   const allQuestionInExamById = await getAllQuestionById(request.body.examId);
-
-  return response.status(200).json(allQuestionInExamById);
+  if (allQuestionInExamById != null) {
+    return response
+      .status(200)
+      .json({ data: allQuestionInExamById, success: true });
+  } else {
+    return response.status(404).json({
+      error: getAllQuestionInExamErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function getAllUserHasBeenSeenController(request, response) {
   const hasBeenSeenUsers = await getAllUserHasBeenSeenExam(request.body.examId);
 
-  return response.status(200).json(hasBeenSeenUsers);
+  if (hasBeenSeenUsers != null) {
+    return response.status(200).json({ data: hasBeenSeenUsers, success: true });
+  } else {
+    return response.status(404).json({
+      error: getAllUserHasBeenSeenErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function deleteQuestionByIdFromExamController(request, response) {
@@ -72,12 +112,28 @@ async function deleteQuestionByIdFromExamController(request, response) {
     request.body.examId,
     request.body.questionId
   );
-  return response.status(200).json(result);
+
+  if (result != null) {
+    return response.status(200).json({ data: result, success: true });
+  } else {
+    return response.status(404).json({
+      error: deleteQuestionInExamErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function getHowManyHasBeenSeenController(request, response) {
   const result = await getHowManySeenExamById(request.params.examId);
-  return response.status(200).json(result);
+
+  if (result != null) {
+    return response.status(200).json({ data: result, success: true });
+  } else {
+    return response.status(404).json({
+      error: getHowManyUserHasBeenSeenErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function updateExamController(request, response) {
@@ -85,7 +141,14 @@ async function updateExamController(request, response) {
 
   const updatedExam = await updateExamById(examId, request.body);
 
-  return response.status(200).json({ message: updatedExam });
+  if (updateExamById != null) {
+    return response.status(200).json({ data: updatedExam, success: true });
+  } else {
+    return response.status(404).json({
+      error: updateErrorMessage,
+      success: false,
+    });
+  }
 }
 module.exports = {
   createExamController,
