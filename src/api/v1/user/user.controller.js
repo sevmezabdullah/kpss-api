@@ -20,17 +20,24 @@ const {
   sendForgotPasswordEmail,
 } = require('../../../utils/mail.sender');
 const {
-  createdUserMessage,
-  namedUserRegisteredMessage,
-  registeredUserMessage,
   verifiedEmailAdress,
-  deletedUserMessage,
+
   notFoundedUserMessage,
   unCompletedExamError,
+
   completedExamMessage,
+  passwordChanged,
   emailSubjectMessage,
+  userCreationErrorMessage,
   forgotEmailMessage,
-  registerMailErrorMessage,
+
+  serverSideErrorMessage,
+  loginWithGmailErrorMessage,
+  passwordChangingErrorMessage,
+  updateUserRoleMessage,
+  loginErrorMessage,
+  updateUserRoleErrorMessage,
+  checkYourEmailAdressMessage,
 } = require('./res/response.messages');
 
 //! Completed
@@ -46,19 +53,18 @@ async function userRegisterController(request, response) {
   if (isSentMail != null) {
     if (isSentMail.accepted.length > 0) {
       return response.status(200).json({
-        user: `${savedUser.name} ${namedUserRegisteredMessage}`,
-        snackMessage: createdUserMessage,
-        message: registeredUserMessage,
+        data: savedUser,
+        success: true,
       });
     } else {
       return response
         .status(404)
-        .json({ errorMessage: registerMailErrorMessage });
+        .json({ error: userCreationErrorMessage, success: false });
     }
   } else {
     return response.status(500).json({
-      errorMessage:
-        'Sunucularımızda geçici bir arıza meydana gelmiştir lütfen kısa bir süre sonra tekrar deneyin',
+      error: serverSideErrorMessage,
+      success: false,
     });
   }
 }
@@ -71,14 +77,26 @@ async function changePasswordController(request, response) {
     decodedJWT.id,
     request.body.password
   );
-  return response
-    .status(201)
-    .json({ message: 'Şifre değiştirildi', user: changedPasswordUser });
+
+  if (changedPasswordUser != null) {
+    return response.status(201).json({ data: passwordChanged, success: true });
+  } else {
+    return response
+      .status(404)
+      .json({ error: passwordChangingErrorMessage, success: false });
+  }
 }
 
 async function userLoginController(request, response) {
   const user = await loginUser(request.body.email, request.body.password);
-  return response.status(200).json(user);
+
+  if (user != null) {
+    return response.status(200).json({ data: user, success: true });
+  } else {
+    return response
+      .status(404)
+      .json({ error: loginErrorMessage, success: false });
+  }
 }
 
 //! Completed
@@ -88,10 +106,18 @@ async function loginWithGoogleMobileController(request, response) {
   const surname = request.body.surname;
   const profilePic = request.body.profilePic;
   const user = await loginWithGoogleMobile(email, name, surname, profilePic);
-  return response.status(200).json(user);
+
+  if (user != null) {
+    return response.status(200).json({ data: user, success: true });
+  } else {
+    return response.status(404).json({
+      error: loginWithGmailErrorMessage,
+      success: false,
+    });
+  }
 }
 
-//! Completed
+//! TODO
 async function changeProfileImageController(request, response) {
   const result = await cloudinary.uploader.upload(request.file.path);
 
@@ -100,13 +126,16 @@ async function changeProfileImageController(request, response) {
     result.url,
     result.public_id
   );
-  return response.status(201).json({
-    picture: result.url,
-    public_id: result.public_id,
-    user: changedProfileImage,
-    success: true,
-    message: 'Profil resmi değişikliği başarılı.',
-  });
+
+  if (changeProfileImage != null) {
+    return response.status(201).json({
+      picture: result.url,
+      public_id: result.public_id,
+      user: changedProfileImage,
+      success: true,
+      message: 'Profil resmi değişikliği başarılı.',
+    });
+  }
 }
 
 //! Completed
@@ -120,11 +149,13 @@ async function forgotPasswordController(request, response) {
 
   if (isSentMail.accepted.length > 0) {
     return response.status(200).json({
-      message: 'Lütfen gönderilen epostayı kontrol edin',
+      data: checkYourEmailAdressMessage,
       success: true,
     });
   } else {
-    return response.status(404).json(registerMailErrorMessage);
+    return response
+      .status(404)
+      .json({ error: registerMailErrorMessage, success: false });
   }
 }
 
@@ -137,9 +168,11 @@ async function getAllUserController(request, response, next) {
 async function getUserByIdController(request, response) {
   const result = await getUserById(request.params.userId);
   if (result != null) {
-    return response.status(200).json(result);
+    return response.status(200).json({ data: result, success: true });
   } else {
-    return response.status(404).json({ message: notFoundedUserMessage });
+    return response
+      .status(404)
+      .json({ error: notFoundedUserMessage, success: false });
   }
 }
 
@@ -148,9 +181,13 @@ async function verifyUserByIdController(request, response) {
   const verifiedUser = await verifyUserByUserId(request.params.userId);
 
   if (verifiedUser != null) {
-    return response.status(200).json({ message: `${verifiedEmailAdress}` });
+    return response
+      .status(200)
+      .json({ data: `${verifiedEmailAdress}`, success: true });
   } else {
-    return response.status(404).json({ message: `${notFoundedUserMessage}` });
+    return response
+      .status(404)
+      .json({ error: `${notFoundedUserMessage}`, success: false });
   }
 }
 
@@ -159,10 +196,13 @@ async function deleteUserByIdController(request, response) {
   const deletedUser = await deleteUserById(request.body.userId);
   if (deletedUser != null) {
     return response.status(200).json({
-      message: `${deletedUser.name} ${deletedUser.surname} ${deletedUserMessage}.`,
+      data: deletedUser,
+      success: true,
     });
   } else {
-    return response.status(404).json({ message: `${notFoundedUserMessage}` });
+    return response
+      .status(404)
+      .json({ error: `${notFoundedUserMessage}`, success: false });
   }
 }
 
@@ -173,9 +213,11 @@ async function addUnCompletedExamToUserController(request, response) {
   );
 
   if (result != null) {
-    return response.status(200).json(result);
+    return response.status(200).json({ data: result, success: true });
   } else {
-    return response.status(404).json({ message: unCompletedExamError });
+    return response
+      .status(404)
+      .json({ error: unCompletedExamError, success: false });
   }
 }
 
@@ -185,9 +227,13 @@ async function addCompletedExamToUserController(request, response) {
   const result = await addCompletedTestToUser(examResult.userId, examResult);
 
   if (result != null) {
-    return response.status(201).json({ message: completedExamMessage });
+    return response
+      .status(201)
+      .json({ data: completedExamMessage, success: true });
   } else {
-    return response.status(404).json({ message: notFoundedUserMessage });
+    return response
+      .status(404)
+      .json({ message: notFoundedUserMessage, success: false });
   }
 }
 
@@ -198,8 +244,13 @@ async function updateUserRoleByIdController(request, response) {
 
   if (result != null) {
     return response.status(200).json({
-      message: `${result.name} isimli kullanıcının yetkisi güncellendi`,
+      data: `${result.name} ${updateUserRoleMessage}`,
+      success: true,
     });
+  } else {
+    return response
+      .status(404)
+      .json({ error: updateUserRoleErrorMessage, success: false });
   }
 }
 
