@@ -9,7 +9,11 @@ const {
 
 const {
   deleteQuestionErrorMessage,
+  notFoundQuestionErrorMessage,
+  notFoundCorrectErrorMessage,
+  notFoundWrongErrorMessage,
 } = require('../question/res/response.messages');
+
 async function createQuestionContoller(request, response) {
   //+ Database Access Layer dan gelen sonuç kullanıcıya dönmek üzere result nesnesine atandı
   const result = await createQuestion(request.body);
@@ -67,9 +71,11 @@ async function updateQuestionByIdController(request, response) {
 async function getQuestionByIdController(request, response) {
   const question = await getQuestionById(request.params.id);
   if (question != null) {
-    return response.status(200).json(question);
+    return response.status(200).json({ data: question, success: true });
   } else {
-    return response.status(404).json({ message: 'Soru bulunamadı' });
+    return response
+      .status(404)
+      .json({ error: notFoundQuestionErrorMessage, success: false });
   }
 }
 
@@ -77,7 +83,15 @@ async function getHowManyWrongAnswerQuestionByIdController(request, response) {
   const result = await getHowManyWrongAnswerQuestionById(
     request.params.questionId
   );
-  return response.status(200).json(result);
+
+  if (result != null) {
+    return response.status(200).json({ data: result, success: true });
+  } else {
+    return response.status(404).json({
+      error: notFoundWrongErrorMessage,
+      success: false,
+    });
+  }
 }
 
 async function getHowManyCorrectAnswerQuestionByIdController(
@@ -87,7 +101,15 @@ async function getHowManyCorrectAnswerQuestionByIdController(
   const result = await getHowManyCorrectAnswerQuestionById(
     request.params.questionId
   );
-  return response.status(200).json(result);
+
+  if (result != null) {
+    return response.status(200).json({ data: result, success: true });
+  } else {
+    return response.status(404).json({
+      error: notFoundCorrectErrorMessage,
+      success: false,
+    });
+  }
 }
 
 module.exports = {

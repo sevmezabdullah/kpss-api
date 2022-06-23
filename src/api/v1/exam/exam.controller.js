@@ -49,7 +49,7 @@ async function getExamByIdController(request, response) {
 async function deleteExamByIdController(request, response) {
   const exam = await deleteExamById(request.params.id);
   if (exam) {
-    return response.status(200).json({ exam, message: 'Silindi' });
+    return response.status(200).json({ data: exam, success: true });
   } else {
     return response.status(404).json({
       error: deleteExamByIdErrorMessage,
