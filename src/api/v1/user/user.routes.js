@@ -6,7 +6,8 @@ const asyncHandler = require('../../../middlewares/async');
 const User = require('../../../models/user/user.schema');
 const advencedResults = require('../../../middlewares/advenced.result');
 
-const upload = require('../../../utils/multer');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 
 const { protect, authorize } = require('../../../middlewares/auth');
 

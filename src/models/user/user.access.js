@@ -1,7 +1,8 @@
 //+ UserSchema hakkında sorguların olduğu DAL(Data Access Layer) katmanıdır.
 const bcrypt = require('bcrypt');
 const User = require('./user.schema');
-const cloudinary = require('../../utils/cloudinary');
+const multer = require('multer');
+const upload = multer({ dest: 'uploads/' });
 const config = require('../../config/config');
 const jwt = require('jsonwebtoken');
 
@@ -67,7 +68,6 @@ async function changePassword(userId, newPassword) {
 
 async function changeProfileImage(email, profilePic, public_id) {
   if (public_id != null) {
-    await cloudinary.uploader.destroy(public_id);
     const updatedProfileImageUser = await User.findOneAndUpdate(
       { email: email },
       { $set: { profilePic: profilePic, public_id: public_id } },

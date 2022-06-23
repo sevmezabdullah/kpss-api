@@ -13,7 +13,6 @@ const {
   loginWithGoogleMobile,
   changeProfileImage,
 } = require('../../../models/user/user.access');
-const cloudinary = require('../../../utils/cloudinary');
 
 const {
   sendActivationEmail,
@@ -119,8 +118,6 @@ async function loginWithGoogleMobileController(request, response) {
 
 //! TODO
 async function changeProfileImageController(request, response) {
-  const result = await cloudinary.uploader.upload(request.file.path);
-
   const changedProfileImage = await changeProfileImage(
     request.body.email,
     result.url,
