@@ -18,6 +18,7 @@ async function createQuestionContoller(request, response) {
   //+ Database Access Layer dan gelen sonuç kullanıcıya dönmek üzere result nesnesine atandı
   const result = await createQuestion(request.body);
 
+  console.log(request.file);
   //+ Sonuç içerisinde hata olup olmadığı konrol edildi.
   if (result.error != null) {
     //+ Hata kontrolü için errorChecker fonksiyonuna gönderildi.

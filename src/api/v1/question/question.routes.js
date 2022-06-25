@@ -17,10 +17,13 @@ const {
 
 const advancedResults = require('../../../middlewares/advenced.result');
 
+const upload = require('../../../utils/multer');
+
 questionRouter.post(
   '/createQuestion',
   protect,
   authorize('admin'),
+  upload.single('question-image'),
   asyncHandler(createQuestionContoller)
 );
 
