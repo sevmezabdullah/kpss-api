@@ -13,6 +13,8 @@ const {
   updateExamController,
 } = require('./exam.controller');
 
+const { protect, authorize } = require('../../../middlewares/auth');
+const upload = require('../../../utils/multer');
 const advencedResults = require('../../../middlewares/advenced.result');
 
 //! ====== Working =====
@@ -22,19 +24,42 @@ examRouter.get(
   getAllExamController
 );
 //! ====== Working =====
-examRouter.get('/getAllQuestionByExamId', getAllQuestionInExamController);
+examRouter.get(
+  '/getAllQuestionByExamId',
+  protect,
+  getAllQuestionInExamController
+);
 //! ====== Working =====
-examRouter.get('/getExamById/:id', getExamByIdController);
+examRouter.get('/getExamById/:id', protect, getExamByIdController);
 //! ====== Working =====
-examRouter.get('/getAllUsersHasBeenSeen', getAllUserHasBeenSeenController);
+examRouter.get(
+  '/getAllUsersHasBeenSeen',
+  protect,
+  getAllUserHasBeenSeenController
+);
 
 //! ====== Working =====
-examRouter.post('/createExam', createExamController);
+examRouter.post(
+  '/createExam',
+  protect,
+  upload.single('exam-image'),
+  createExamController
+);
 
 //! ====== Working =====
-examRouter.post('/addQuestionById', addQuestionByIdToExamController);
+examRouter.post(
+  '/addQuestionById',
+  protect,
 
-examRouter.put('/updateExam/:examId', updateExamController);
+  addQuestionByIdToExamController
+);
+
+examRouter.put(
+  '/updateExam/:examId',
+  protect,
+  upload.single('exam-image'),
+  updateExamController
+);
 
 //! ====== Working =====
 examRouter.delete('/deleteExamById/:id', deleteExamByIdController);

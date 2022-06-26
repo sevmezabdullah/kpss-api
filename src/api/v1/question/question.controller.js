@@ -7,18 +7,21 @@ const {
   getHowManyWrongAnswerQuestionById,
 } = require('../../../models/question/question.access');
 
+const fs = require('fs');
+const path = require('path');
 const {
   deleteQuestionErrorMessage,
   notFoundQuestionErrorMessage,
   notFoundCorrectErrorMessage,
   notFoundWrongErrorMessage,
 } = require('../question/res/response.messages');
+const config = require('../../../config/config');
 
 async function createQuestionContoller(request, response) {
   //+ Database Access Layer dan gelen sonuç kullanıcıya dönmek üzere result nesnesine atandı
   const result = await createQuestion(request.body);
-
-  console.log(request.file);
+  const imageUrl = uploadImage(request, result.id);
+  await updateQuestionById(result.id, { questionImage: imageUrl });
   //+ Sonuç içerisinde hata olup olmadığı konrol edildi.
   if (result.error != null) {
     //+ Hata kontrolü için errorChecker fonksiyonuna gönderildi.
@@ -27,6 +30,32 @@ async function createQuestionContoller(request, response) {
     //+ Hata yoksa kullanıcıya cevap dönüldü
     return response.status(201).json({ data: result, success: true });
   }
+}
+
+function uploadImage(request, id) {
+  const file = request.file;
+  const fileExt = file.originalname.split('.');
+  const fileType = fileExt[fileExt.length - 1];
+  console.log(file.originalname);
+  console.log(fileType);
+
+  const oldImagePath = path.join(__dirname, '../../../../', file.path);
+
+  const newImagePath = path.join(
+    __dirname,
+    '../../../../uploads/questions',
+    id + '.' + fileType
+  );
+  fs.rename(oldImagePath, newImagePath, (err) => {});
+
+  return (
+    'http://' +
+    request.hostname +
+    `:${config.PORT}/uploads/questions/` +
+    id +
+    '.' +
+    fileType
+  );
 }
 
 //+ id bilgisine göre questions koleksiyonundan soru siliyoruz
@@ -55,7 +84,12 @@ async function getAllQuestionController(request, response) {
 }
 
 async function updateQuestionByIdController(request, response) {
-  const newQuestion = request.body;
+  let newQuestion = request.body;
+
+  if (request.file != null) {
+    const imageUrl = uploadImage(request, request.params.id);
+    newQuestion.questionImage = imageUrl;
+  }
   const updatedQuestion = await updateQuestionById(
     request.params.id,
     newQuestion

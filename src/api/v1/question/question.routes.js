@@ -33,7 +33,13 @@ questionRouter.get(
   getAllQuestionController
 );
 questionRouter.delete('/deleteById/:id', deleteQuestionController);
-questionRouter.put('/updateQuestion/:id', updateQuestionByIdController);
+questionRouter.put(
+  '/updateQuestion/:id',
+  protect,
+  authorize('admin'),
+  upload.single('question-image'),
+  updateQuestionByIdController
+);
 questionRouter.get('/getQuestionById/:id', getQuestionByIdController);
 
 questionRouter.get(

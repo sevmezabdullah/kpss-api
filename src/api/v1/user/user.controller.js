@@ -43,6 +43,10 @@ const {
 async function userRegisterController(request, response) {
   const user = request.body;
   const savedUser = await registerUser(user);
+
+  if (request.file != null) {
+  }
+
   const isSentMail = await sendActivationEmail(
     config.SMTP_EMAIL,
     savedUser.email,
@@ -251,6 +255,31 @@ async function updateUserRoleByIdController(request, response) {
   }
 }
 
+function uploadImage(request, result) {
+  const file = request.file;
+  const fileExt = file.originalname.split('.');
+  const fileType = fileExt[fileExt.length - 1];
+  console.log(file.originalname);
+  console.log(fileType);
+
+  const oldImagePath = path.join(__dirname, '../../../../', file.path);
+
+  const newImagePath = path.join(
+    __dirname,
+    '../../../../uploads/questions',
+    result.id + '.' + fileType
+  );
+  fs.rename(oldImagePath, newImagePath, (err) => {});
+
+  return (
+    'http://' +
+    request.hostname +
+    `:${config.PORT}/uploads/questions/` +
+    result.id +
+    '.' +
+    fileType
+  );
+}
 module.exports = {
   userRegisterController,
   userLoginController,

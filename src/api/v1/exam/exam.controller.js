@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs');
+const config = require('../../../config/config');
 const {
   createExam,
   getExamById,
@@ -26,7 +29,14 @@ async function createExamController(request, response) {
   const duration = request.body.duration;
   const category = request.body.category;
   const createdExam = await createExam({ title, duration, category });
-  if (createExam != null) {
+
+  if (request.file != null) {
+    const imageURL = uploadImage(request, createdExam.id);
+
+    await updateExamById(createdExam.id, { examImageUrl: imageURL });
+  }
+
+  if (createExam == null) {
     return response
       .status(404)
       .json({ error: createExamErrorMessage, success: false });
@@ -139,6 +149,11 @@ async function getHowManyHasBeenSeenController(request, response) {
 async function updateExamController(request, response) {
   const examId = request.params.examId;
 
+  if (request.file != null) {
+    const imageUrl = uploadImage(request, examId);
+    request.body.examImageUrl = imageUrl;
+  }
+
   const updatedExam = await updateExamById(examId, request.body);
 
   if (updateExamById != null) {
@@ -150,6 +165,33 @@ async function updateExamController(request, response) {
     });
   }
 }
+
+function uploadImage(request, id) {
+  const file = request.file;
+  const fileExt = file.originalname.split('.');
+  const fileType = fileExt[fileExt.length - 1];
+  console.log(file.originalname);
+  console.log(fileType);
+
+  const oldImagePath = path.join(__dirname, '../../../../', file.path);
+
+  const newImagePath = path.join(
+    __dirname,
+    '../../../../uploads/exams',
+    id + '.' + fileType
+  );
+  fs.rename(oldImagePath, newImagePath, (err) => {});
+
+  return (
+    'http://' +
+    request.hostname +
+    `:${config.PORT}/uploads/exams/` +
+    id +
+    '.' +
+    fileType
+  );
+}
+
 module.exports = {
   createExamController,
   getExamByIdController,
